@@ -1,0 +1,827 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Resume Builder — LearnManch (Editor + PDF)</title>
+
+    <!-- html2pdf for client-side PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+
+    <style>
+         :root {
+            --accent: #0b72d1;
+            --bg1: #031a2b;
+            --bg2: #06263a;
+            --muted: #8fb0d6;
+            --white: #fff;
+        }
+        
+        * {
+            box-sizing: border-box
+        }
+        
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Inter, system-ui, Arial;
+            background: radial-gradient(ellipse at center, var(--bg2) 0%, var(--bg1) 60%);
+            color: var(--muted);
+            padding: 22px;
+        }
+        
+        .topbar {
+            max-width: 1100px;
+            margin: 0 auto 18px;
+            color: #dff3ff;
+            padding: 0 10px
+        }
+        
+        h1 {
+            margin: 0 0 6px 0
+        }
+        
+        p.lead {
+            margin: 0;
+            color: #bcdff8;
+            font-size: 14px
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 18px auto;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start
+        }
+        
+        .panel {
+            width: 360px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.03)
+        }
+        
+        label {
+            display: block;
+            font-size: 13px;
+            color: #bfdff8;
+            margin-bottom: 6px
+        }
+        
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--white)
+        }
+        
+        textarea {
+            min-height: 72px
+        }
+        
+        .inline {
+            display: flex;
+            gap: 10px;
+            align-items: center
+        }
+        
+        .btn {
+            background: var(--accent);
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600
+        }
+        
+        .btn-ghost {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--muted)
+        }
+        
+        .muted {
+            color: #9bb8d8;
+            font-size: 13px
+        }
+        
+        .small {
+            font-size: 13px;
+            color: #9dc6ff
+        }
+        /* Lists in editor */
+        
+        .list-block {
+            margin-top: 8px
+        }
+        
+        .list-item-edit {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 8px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.03)
+        }
+        
+        .mini-row {
+            display: flex;
+            gap: 8px
+        }
+        
+        .mini-row input {
+            flex: 1
+        }
+        
+        .preview-wrap {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 520px
+        }
+        
+        .resume-card {
+            width: 720px;
+            border-radius: 10px;
+            overflow: hidden;
+            padding: 28px;
+            position: relative;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+            background: #fff;
+            color: #02263d;
+            font-family: Inter, sans-serif
+        }
+        
+        .tpl-modern {
+            background: linear-gradient(180deg, #ffffff, #f7fbff)
+        }
+        
+        .tpl-classic {
+            background: #fff7ef;
+            color: #1b2b2b;
+            font-family: "Georgia", serif
+        }
+        
+        .tpl-elegant {
+            background: linear-gradient(180deg, #ffffff, #f1f6fb);
+            border-left: 6px solid var(--accent)
+        }
+        
+        .r-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 16px
+        }
+        
+        .r-left {
+            max-width: 72%
+        }
+        
+        .r-name {
+            font-size: 26px;
+            font-weight: 800
+        }
+        
+        .r-title {
+            color: var(--accent);
+            font-weight: 700;
+            margin-top: 6px
+        }
+        
+        .r-contact {
+            margin-top: 10px;
+            color: #234f6f;
+            font-size: 13px
+        }
+        
+        .photo-corner {
+            position: absolute;
+            right: 22px;
+            top: 22px;
+            width: 96px;
+            height: 96px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 3px solid rgba(11, 114, 209, 0.12);
+            box-shadow: 0 6px 18px rgba(11, 114, 209, 0.08);
+            background: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+        
+        .photo-corner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover
+        }
+        
+        .summary {
+            margin-top: 16px;
+            background: #f7fbff;
+            padding: 12px;
+            border-radius: 8px;
+            color: #163a53
+        }
+        
+        .section {
+            margin-top: 18px
+        }
+        
+        .section h3 {
+            margin: 0 0 8px 0;
+            color: #0b4b75
+        }
+        
+        .item {
+            background: #fff;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 6px 16px rgba(3, 26, 43, 0.03)
+        }
+        
+        .item .title {
+            font-weight: 700
+        }
+        
+        .item .meta {
+            font-size: 13px;
+            color: var(--muted);
+            margin-top: 6px
+        }
+        
+        @media (max-width:980px) {
+            .container {
+                flex-direction: column
+            }
+            .panel {
+                width: 100%
+            }
+            .resume-card {
+                width: 100%
+            }
+            .photo-corner {
+                position: static;
+                width: 86px;
+                height: 86px;
+                margin-left: auto;
+                margin-bottom: 10px
+            }
+        }
+        
+        .hidden {
+            display: none !important
+        }
+        
+        @media print {
+            body {
+                background: white
+            }
+            .panel,
+            .no-print {
+                display: none !important
+            }
+            .resume-card {
+                box-shadow: none;
+                border-radius: 0;
+                padding: 18mm
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topbar">
+        <h1>Resume Builder — Editor</h1>
+        <p class="lead">Fill form, add Experience & Education, choose template, preview and download PDF.</p>
+    </div>
+
+    <div class="container">
+        <!-- Editor -->
+        <div class="panel no-print" id="editor">
+            <label>Full Name</label>
+            <input id="inp-name" type="text" placeholder="Ex: Ram Kumar">
+
+            <label style="margin-top:8px">Professional Title</label>
+            <input id="inp-title" type="text" placeholder="Ex: Frontend Developer">
+
+            <label style="margin-top:8px">Email</label>
+            <input id="inp-email" type="email" placeholder="you@example.com">
+
+            <label style="margin-top:8px">Phone</label>
+            <input id="inp-phone" type="text" placeholder="+91 98XXXXXXXX">
+
+            <label style="margin-top:8px">Location</label>
+            <input id="inp-location" type="text" placeholder="City, Country">
+
+            <label style="margin-top:8px">Summary / Objective</label>
+            <textarea id="inp-summary" placeholder="Short summary about you..."></textarea>
+
+            <label style="margin-top:8px">Upload Photo (optional)</label>
+            <input id="inp-photo" type="file" accept="image/*">
+
+            <label style="margin-top:10px">Experience</label>
+            <div id="expEditor" class="list-block"></div>
+            <div style="margin-top:6px; display:flex; gap:8px;">
+                <button class="btn" onclick="addExperience()">+ Add Experience</button>
+                <button class="btn btn-ghost" onclick="clearExperience()">Clear Exp</button>
+            </div>
+
+            <label style="margin-top:12px">Education</label>
+            <div id="eduEditor" class="list-block"></div>
+            <div style="margin-top:6px; display:flex; gap:8px;">
+                <button class="btn" onclick="addEducation()">+ Add Education</button>
+                <button class="btn btn-ghost" onclick="clearEducation()">Clear Edu</button>
+            </div>
+
+            <label style="margin-top:10px">Choose Template</label>
+            <div class="inline" style="margin-top:6px">
+                <label style="color:#dff3ff"><input type="radio" name="template" value="modern" checked onchange="updateTemplate()"> Modern</label>
+                <label style="color:#dff3ff"><input type="radio" name="template" value="classic" onchange="updateTemplate()"> Classic</label>
+                <label style="color:#dff3ff"><input type="radio" name="template" value="elegant" onchange="updateTemplate()"> Elegant</label>
+            </div>
+
+            <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap">
+                <button class="btn" onclick="togglePreview(true)">Open Preview</button>
+                <button class="btn btn-ghost" onclick="clearAll()">Clear All</button>
+            </div>
+
+            <p class="muted" style="margin-top:10px">Tip: Experience & Education entries save automatically to localStorage.</p>
+        </div>
+
+        <!-- Preview -->
+        <div class="preview-wrap">
+            <div id="resumeCard" class="resume-card tpl-modern hidden">
+                <div class="photo-corner" id="photoCorner" style="display:none"><img id="photoImg" src="" alt=""></div>
+
+                <div class="r-header">
+                    <div class="r-left">
+                        <div id="rName" class="r-name">Full Name</div>
+                        <div id="rTitle" class="r-title">Professional Title</div>
+                        <div id="rContact" class="r-contact">you@example.com • +91 98xxxxxxx • City, Country</div>
+                    </div>
+                </div>
+
+                <div id="rSummary" class="summary">Short professional summary will appear here.</div>
+
+                <div id="rExperience" class="section">
+                    <h3>Experience</h3>
+                    <div id="expList"></div>
+                </div>
+
+                <div id="rEducation" class="section">
+                    <h3>Education</h3>
+                    <div id="eduList"></div>
+                </div>
+
+                <div style="margin-top:18px;font-size:12px;color:#4b6f8f">Generated with LearnManch Resume Builder</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="previewControls" class="no-print" style="max-width:1100px;margin:12px auto;display:none;padding:0 10px;">
+        <div style="display:flex;gap:10px;align-items:center;">
+            <button class="btn" onclick="downloadPDF()">⬇️ Download PDF</button>
+            <button class="btn btn-ghost" onclick="togglePreview(false)">Close Preview</button>
+            <label style="margin-left:12px;color:#dff3ff">Current template: <strong id="currentTemplate">Modern</strong></label>
+        </div>
+    </div>
+    <footer class="site-footer">
+        <div class="container">
+            <p>© 2025 LearnManch | Designed mr Ramkesh RS ❤️ for learners.</p>
+        </div>
+    </footer>
+    <script>
+        // model with arrays for experience & education
+        const model = {
+            name: "Full Name",
+            title: "Professional Title",
+            email: "you@example.com",
+            phone: "+91 98xxxxxxx",
+            location: "City, Country",
+            summary: "Short professional summary will appear here.",
+            template: "modern",
+            photo: "",
+            experience: [], // {role, org, period, desc}
+            education: [] // {degree, inst, year, desc}
+        };
+
+        // DOM refs
+        const inpName = document.getElementById('inp-name');
+        const inpTitle = document.getElementById('inp-title');
+        const inpEmail = document.getElementById('inp-email');
+        const inpPhone = document.getElementById('inp-phone');
+        const inpLocation = document.getElementById('inp-location');
+        const inpSummary = document.getElementById('inp-summary');
+        const inpPhoto = document.getElementById('inp-photo');
+
+        const expEditor = document.getElementById('expEditor');
+        const eduEditor = document.getElementById('eduEditor');
+
+        const resumeCard = document.getElementById('resumeCard');
+        const photoCorner = document.getElementById('photoCorner');
+        const photoImg = document.getElementById('photoImg');
+        const rName = document.getElementById('rName');
+        const rTitle = document.getElementById('rTitle');
+        const rContact = document.getElementById('rContact');
+        const rSummary = document.getElementById('rSummary');
+        const expList = document.getElementById('expList');
+        const eduList = document.getElementById('eduList');
+        const previewControls = document.getElementById('previewControls');
+        const currentTemplateLabel = document.getElementById('currentTemplate');
+
+        // load saved draft if exists
+        (function loadDraft() {
+            try {
+                const raw = localStorage.getItem('resumeDraft');
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    Object.assign(model, parsed);
+                    // ensure arrays exist
+                    model.experience = model.experience || [];
+                    model.education = model.education || [];
+                }
+            } catch (e) {
+                console.error('load error', e);
+            }
+
+            // keep inputs empty (placeholders visible), but ensure template radio matches saved template
+            const t = model.template || 'modern';
+            const radio = document.querySelector(`input[name="template"][value="${t}"]`);
+            if (radio) radio.checked = true;
+
+            // render editors (list items)
+            renderExpEditor();
+            renderEduEditor();
+        })();
+
+        // placeholders behavior (keep placeholders until type)
+        function initPlaceholders() {
+            document.querySelectorAll('input[type="text"], input[type="email"], textarea').forEach(el => {
+                if (!el.dataset.ph) el.dataset.ph = el.getAttribute('placeholder') || '';
+                el.addEventListener('focus', () => el.setAttribute('placeholder', ''));
+                el.addEventListener('blur', () => {
+                    if (!el.value || el.value.trim() === '') el.setAttribute('placeholder', el.dataset.ph);
+                });
+            });
+        }
+        initPlaceholders();
+
+        // save simple fields to model (but do not prefill inputs on load)
+        function saveModelSimple() {
+            if (inpName.value && inpName.value.trim()) model.name = inpName.value.trim();
+            if (inpTitle.value && inpTitle.value.trim()) model.title = inpTitle.value.trim();
+            if (inpEmail.value && inpEmail.value.trim()) model.email = inpEmail.value.trim();
+            if (inpPhone.value && inpPhone.value.trim()) model.phone = inpPhone.value.trim();
+            if (inpLocation.value && inpLocation.value.trim()) model.location = inpLocation.value.trim();
+            if (inpSummary.value && inpSummary.value.trim()) model.summary = inpSummary.value.trim();
+            localStorage.setItem('resumeDraft', JSON.stringify(model));
+        }
+        [inpName, inpTitle, inpEmail, inpPhone, inpLocation, inpSummary].forEach(el => el.addEventListener('input', saveModelSimple));
+
+        // photo handling
+        inpPhoto.addEventListener('change', (e) => {
+            const f = e.target.files[0];
+            if (!f) return;
+            const reader = new FileReader();
+            reader.onload = ev => {
+                model.photo = ev.target.result;
+                localStorage.setItem('resumeDraft', JSON.stringify(model));
+            };
+            reader.readAsDataURL(f);
+        });
+
+        // --- Experience editor functions ---
+        function renderExpEditor() {
+            expEditor.innerHTML = '';
+            if (model.experience.length === 0) {
+                const p = document.createElement('div');
+                p.className = 'small muted';
+                p.textContent = 'No experience added yet.';
+                expEditor.appendChild(p);
+                return;
+            }
+            model.experience.forEach((e, idx) => {
+                const div = document.createElement('div');
+                div.className = 'list-item-edit';
+                div.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center"><strong>Experience ${idx+1}</strong>
+          <div>
+            <button class="btn btn-ghost" onclick="removeExperience(${idx})" style="font-size:13px;padding:6px 8px">Remove</button>
+          </div>
+        </div>
+        <div style="margin-top:8px">
+          <input placeholder="Role (e.g. Frontend Developer)" data-idx="${idx}" class="exp-role" value="${escapeHtml(e.role)}">
+        </div>
+        <div style="margin-top:8px" class="mini-row">
+          <input placeholder="Organization" data-idx="${idx}" class="exp-org" value="${escapeHtml(e.org)}">
+          <input placeholder="Period (e.g. 2020 - 2022)" data-idx="${idx}" class="exp-period" value="${escapeHtml(e.period)}">
+        </div>
+        <div style="margin-top:8px">
+          <textarea placeholder="Short description" data-idx="${idx}" class="exp-desc">${escapeHtml(e.desc)}</textarea>
+        </div>
+      `;
+                expEditor.appendChild(div);
+            });
+
+            // attach listeners
+            expEditor.querySelectorAll('.exp-role').forEach(el => el.addEventListener('input', ev => {
+                const i = +ev.target.dataset.idx;
+                model.experience[i].role = ev.target.value;
+                localStorage.setItem('resumeDraft', JSON.stringify(model));
+            }));
+            expEditor.querySelectorAll('.exp-org').forEach(el => el.addEventListener('input', ev => {
+                const i = +ev.target.dataset.idx;
+                model.experience[i].org = ev.target.value;
+                localStorage.setItem('resumeDraft', JSON.stringify(model));
+            }));
+            expEditor.querySelectorAll('.exp-period').forEach(el => el.addEventListener('input', ev => {
+                const i = +ev.target.dataset.idx;
+                model.experience[i].period = ev.target.value;
+                localStorage.setItem('resumeDraft', JSON.stringify(model));
+            }));
+            expEditor.querySelectorAll('.exp-desc').forEach(el => el.addEventListener('input', ev => {
+                const i = +ev.target.dataset.idx;
+                model.experience[i].desc = ev.target.value;
+                localStorage.setItem('resumeDraft', JSON.stringify(model));
+            }));
+        }
+
+        function addExperience() {
+            model.experience.push({
+                role: 'New Role',
+                org: 'Organization',
+                period: 'Year',
+                desc: 'Short description...'
+            });
+            renderExpEditor();
+            localStorage.setItem('resumeDraft', JSON.stringify(model));
+        }
+
+        function removeExperience(i) {
+            if (!confirm('Remove this experience?')) return;
+            model.experience.splice(i, 1);
+            renderExpEditor();
+            localStorage.setItem('resumeDraft', JSON.stringify(model));
+        }
+
+        function clearExperience() {
+            if (!confirm('Clear all experience entries?')) return;
+            model.experience = [];
+            renderExpEditor();
+            localStorage.setItem('resumeDraft', JSON.stringify(model));
+        }
+
+        // --- Education editor functions ---
+        function renderEduEditor() {
+            eduEditor.innerHTML = '';
+            if (model.education.length === 0) {
+                const p = document.createElement('div');
+                p.className = 'small muted';
+                p.textContent = 'No education added yet.';
+                eduEditor.appendChild(p);
+                return;
+            }
+            model.education.forEach((ed, idx) => {
+                const div = document.createElement('div');
+                div.className = 'list-item-edit';
+                div.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center"><strong>Education ${idx+1}</strong>
+          <div>
+            <button class="btn btn-ghost" onclick="removeEducation(${idx})" style="font-size:13px;padding:6px 8px">Remove</button>
+          </div>
+        </div>
+        <div style="margin-top:8px">
+          <input placeholder="Degree / Course" data-idx="${idx}" class="edu-degree" value="${escapeHtml(ed.degree)}">
+        </div>
+        <div style="margin-top:8px" class="mini-row">
+          <input placeholder="Institute" data-idx="${idx}" class="edu-inst" value="${escapeHtml(ed.inst)}">
+          <input placeholder="Year" data-idx="${idx}" class="edu-year" value="${escapeHtml(ed.year)}">
+        </div>
+        <div style="margin-top:8px">
+          <textarea placeholder="Details / Notes" data-idx="${idx}" class="edu-desc">${escapeHtml(ed.desc)}</textarea>
+        </div>
+      `;
+                eduEditor.appendChild(div);
+            });
+
+            // attach listeners
+            eduEditor.querySelectorAll('.edu-degree').forEach(el => el.addEventListener('input', ev => {
+                const i = +ev.target.dataset.idx;
+                model.education[i].degree = ev.target.value;
+                localStorage.setItem('resumeDraft', JSON.stringify(model));
+            }));
+            eduEditor.querySelectorAll('.edu-inst').forEach(el => el.addEventListener('input', ev => {
+                const i = +ev.target.dataset.idx;
+                model.education[i].inst = ev.target.value;
+                localStorage.setItem('resumeDraft', JSON.stringify(model));
+            }));
+            eduEditor.querySelectorAll('.edu-year').forEach(el => el.addEventListener('input', ev => {
+                const i = +ev.target.dataset.idx;
+                model.education[i].year = ev.target.value;
+                localStorage.setItem('resumeDraft', JSON.stringify(model));
+            }));
+            eduEditor.querySelectorAll('.edu-desc').forEach(el => el.addEventListener('input', ev => {
+                const i = +ev.target.dataset.idx;
+                model.education[i].desc = ev.target.value;
+                localStorage.setItem('resumeDraft', JSON.stringify(model));
+            }));
+        }
+
+        function addEducation() {
+            model.education.push({
+                degree: 'New Degree',
+                inst: 'Institute',
+                year: 'Year',
+                desc: 'Details...'
+            });
+            renderEduEditor();
+            localStorage.setItem('resumeDraft', JSON.stringify(model));
+        }
+
+        function removeEducation(i) {
+            if (!confirm('Remove this education entry?')) return;
+            model.education.splice(i, 1);
+            renderEduEditor();
+            localStorage.setItem('resumeDraft', JSON.stringify(model));
+        }
+
+        function clearEducation() {
+            if (!confirm('Clear all education entries?')) return;
+            model.education = [];
+            renderEduEditor();
+            localStorage.setItem('resumeDraft', JSON.stringify(model));
+        }
+
+        // template change
+        function updateTemplate() {
+            const v = document.querySelector('input[name="template"]:checked').value;
+            model.template = v;
+            localStorage.setItem('resumeDraft', JSON.stringify(model));
+            currentTemplateLabel.textContent = v.charAt(0).toUpperCase() + v.slice(1);
+        }
+        document.querySelectorAll('input[name="template"]').forEach(r => r.addEventListener('change', updateTemplate));
+
+        // toggle preview
+        function togglePreview(show) {
+            if (show) {
+                // update basic fields (prefer typed input, else fallback to model)
+                rName.textContent = (inpName.value && inpName.value.trim()) ? inpName.value.trim() : model.name;
+                rTitle.textContent = (inpTitle.value && inpTitle.value.trim()) ? inpTitle.value.trim() : model.title;
+                const contactParts = [
+                    (inpEmail.value && inpEmail.value.trim()) ? inpEmail.value.trim() : model.email,
+                    (inpPhone.value && inpPhone.value.trim()) ? inpPhone.value.trim() : model.phone,
+                    (inpLocation.value && inpLocation.value.trim()) ? inpLocation.value.trim() : model.location
+                ].filter(Boolean);
+                rContact.textContent = contactParts.join('  •  ');
+                rSummary.textContent = (inpSummary.value && inpSummary.value.trim()) ? inpSummary.value.trim() : model.summary;
+
+                // render experience list in preview
+                renderExperiencePreview();
+                renderEducationPreview();
+
+                // photo
+                if (model.photo) {
+                    photoImg.src = model.photo;
+                    photoCorner.style.display = 'block';
+                } else {
+                    photoCorner.style.display = 'none';
+                }
+
+                // template class
+                resumeCard.classList.remove('tpl-modern', 'tpl-classic', 'tpl-elegant');
+                resumeCard.classList.add('tpl-' + (model.template || 'modern'));
+                currentTemplateLabel.textContent = (model.template || 'modern').charAt(0).toUpperCase() + (model.template || 'modern').slice(1);
+
+                resumeCard.classList.remove('hidden');
+                previewControls.style.display = 'block';
+                setTimeout(() => resumeCard.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                }), 100);
+            } else {
+                resumeCard.classList.add('hidden');
+                previewControls.style.display = 'none';
+            }
+            // save all to storage
+            localStorage.setItem('resumeDraft', JSON.stringify(model));
+        }
+
+        function renderExperiencePreview() {
+            expList.innerHTML = '';
+            if (!Array.isArray(model.experience) || model.experience.length === 0) {
+                expList.innerHTML = '<div class="muted">No experience added.</div>';
+                return;
+            }
+            model.experience.forEach(e => {
+                const node = document.createElement('div');
+                node.className = 'item';
+                node.innerHTML = `<div class="title">${escapeHtml(e.role || '')} <span style="font-weight:600;color:#0b66a6"> — ${escapeHtml(e.org || '')}</span></div>
+                        <div class="meta">${escapeHtml(e.period || '')}</div>
+                        <div style="margin-top:8px">${escapeHtml(e.desc || '')}</div>`;
+                expList.appendChild(node);
+            });
+        }
+
+        function renderEducationPreview() {
+            eduList.innerHTML = '';
+            if (!Array.isArray(model.education) || model.education.length === 0) {
+                eduList.innerHTML = '<div class="muted">No education added.</div>';
+                return;
+            }
+            model.education.forEach(ed => {
+                const node = document.createElement('div');
+                node.className = 'item';
+                node.innerHTML = `<div class="title">${escapeHtml(ed.degree || '')} <span style="font-weight:600;color:#0b66a6"> — ${escapeHtml(ed.inst || '')}</span></div>
+                        <div class="meta">${escapeHtml(ed.year || '')}</div>
+                        <div style="margin-top:8px">${escapeHtml(ed.desc || '')}</div>`;
+                eduList.appendChild(node);
+            });
+        }
+
+        // download PDF
+        function downloadPDF() {
+            togglePreview(true); // ensure preview visible & up-to-date
+            const nameForFile = ((inpName.value && inpName.value.trim()) ? inpName.value.trim() : model.name).replace(/\s+/g, '_');
+            const today = new Date().toISOString().slice(0, 10);
+            const opt = {
+                margin: [0.5, 0.5, 0.5, 0.5],
+                filename: `${nameForFile}_Resume_${today}.pdf`,
+                image: {
+                    type: 'jpeg',
+                    quality: 0.98
+                },
+                html2canvas: {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false
+                },
+                jsPDF: {
+                    unit: 'in',
+                    format: 'a4',
+                    orientation: 'portrait'
+                }
+            };
+            html2pdf().set(opt).from(resumeCard).save().catch(err => {
+                console.error(err);
+                alert('PDF failed — opening print dialog');
+                window.print();
+            });
+        }
+
+        // clear functions
+        function clearAll() {
+            if (!confirm('Clear all inputs and saved draft?')) return;
+            // clear inputs
+            [inpName, inpTitle, inpEmail, inpPhone, inpLocation, inpSummary].forEach(i => i.value = '');
+            inpPhoto.value = '';
+            // reset model
+            model.name = 'Full Name';
+            model.title = 'Professional Title';
+            model.email = 'you@example.com';
+            model.phone = '+91 98xxxxxxx';
+            model.location = 'City, Country';
+            model.summary = 'Short professional summary will appear here.';
+            model.photo = '';
+            model.template = 'modern';
+            model.experience = [];
+            model.education = [];
+            localStorage.removeItem('resumeDraft');
+            renderExpEditor();
+            renderEduEditor();
+            togglePreview(false);
+        }
+
+        // small util
+        function escapeHtml(s) {
+            if (!s && s !== 0) return '';
+            return String(s).replace(/[&<>"']/g, m => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            })[m]);
+        }
+
+        // init editors rendering
+        renderExpEditor();
+        renderEduEditor();
+        // init template label
+        (function init() {
+            currentTemplateLabel.textContent = (model.template || 'modern').charAt(0).toUpperCase() + (model.template || 'modern').slice(1)
+        })();
+    </script>
+</body>
+
+</html>

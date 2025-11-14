@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>LearnManch — Book Store</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
+    <style>
+         :root {
+            --bg: #001f3f;
+            --card: #012b4b;
+            --accent: #ffdc00;
+            --muted: #7fdfff;
+            --glass: rgba(255, 255, 255, 0.03);
+            --radius: 12px;
+            --maxwidth: 1100px
+        }
+        
+        * {
+            box-sizing: border-box
+        }
+        
+        body {
+            margin: 0;
+            font-family: 'Poppins', system-ui, Segoe UI, Roboto, Helvetica, Arial;
+            background: var(--bg);
+            color: #fff
+        }
+        
+        .wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 14px
+        }
+        
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 12px;
+            position: relative;
+        }
+        
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.6rem;
+            font-weight: 700;
+            text-align: left;
+        }
+        
+        .brand .logo {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--accent), #ffb703);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bg);
+            font-weight: 700;
+            font-size: 18px;
+        }
+        
+        .brand .brand-name {
+            /* left aligned brand text, with colored span */
+            font-weight: 700;
+            color: var(--accent);
+            font-size: 18px;
+            margin-left: 6px;
+        }
+        
+        .brand .brand-text {
+            color: #fff;
+        }
+        
+        .brand .brand-text span {
+            color: #00bfff;
+        }
+        /* menu */
+        
+        .menu-wrap {
+            position: relative;
+        }
+        
+        #menuBtn {
+            width: 44px;
+            height: 36px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+        }
+        
+        #menu {
+            position: absolute;
+            right: 0;
+            top: 46px;
+            background: var(--card);
+            border-radius: 10px;
+            padding: 8px;
+            display: none;
+            min-width: 180px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            z-index: 50;
+        }
+        
+        #menu button {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 8px;
+            border: none;
+            background: transparent;
+            color: var(--muted);
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        #menu button:hover {
+            background: var(--glass);
+            color: #fff;
+        }
+        /* books */
+        
+        .book-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 14px;
+        }
+        
+        .book-card {
+            background: var(--card);
+            border-radius: 10px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            min-height: 320px;
+        }
+        
+        .book-cover {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+        
+        .book-title {
+            font-weight: 600;
+        }
+        
+        .book-author {
+            color: var(--muted);
+            font-size: 13px;
+        }
+        
+        .book-footer {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .price {
+            color: var(--accent);
+            font-weight: 700;
+        }
+        
+        .btn {
+            background: var(--accent);
+            color: #012b4b;
+            border: none;
+            padding: 8px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .btn.ghost {
+            background: transparent;
+            color: var(--muted);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        /* modal */
+        
+        .modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 999;
+            padding: 12px;
+        }
+        
+        .card {
+            background: var(--card);
+            padding: 16px;
+            border-radius: 10px;
+            max-width: 95vw;
+        }
+        
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: #001f3f;
+            color: #fff;
+            margin-top: 6px;
+        }
+        
+        .brand {
+            font-size: 1.6rem;
+            font-weight: 700;
+            text-align: left;
+        }
+        
+        .brand span {
+            color: #00bfff;
+        }
+        
+        footer {
+            margin-top: 14px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        /* mobile tweaks */
+        
+        @media(max-width:900px) {
+            .header-center {
+                order: 3;
+                width: 100%;
+                margin-top: 10px;
+            }
+            header {
+                flex-wrap: wrap;
+                gap: 12px;
+                align-items: flex-start;
+            }
+            .menu-wrap {
+                order: 2;
+                margin-left: auto;
+            }
+        }
+        
+        @media(max-width:520px) {
+            .book-cover {
+                height: 160px;
+            }
+            .book-list {
+                gap: 10px;
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .search {
+                width: 100%;
+            }
+            .logo {
+                display: none;
+            }
+            .brand .logo {
+                display: none;
+            }
+        }
+        
+        @media(max-width:380px) {
+            .book-list {
+                grid-template-columns: 1fr;
+            }
+            .book-card {
+                min-height: 260px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <header>
+            <!-- left: brand -->
+            <div class="brand" aria-hidden="false">
+                <div class="logo">LM</div>
+                <div style="display:flex;flex-direction:column;line-height:1">
+                    <div class="brand-text">Learn<span>Manch</span></div>
+                </div>
+            </div>
+
+            <!-- center: search removed -->
+            <!-- right: three-dot menu -->
+            <div class="menu-wrap" aria-haspopup="true">
+                <button id="menuBtn" aria-haspopup="true" aria-expanded="false">⋮</button>
+                <div id="menu" role="menu" aria-hidden="true">
+                    <button onclick="showHistory()">History</button>
+                    <button onclick="showSaved()">Saved Books</button>
+                    <button onclick="collectFeedback()">Feedback</button>
+                    <button onclick="exportOrders()">Export Orders</button>
+                    <button onclick="clearOrders()" style="color:#ff9b9b">Clear Orders</button>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <section id="books" class="book-list" aria-live="polite"></section>
+        </main>
+
+        <footer>
+            <div>© 2025 LearnManch | Designed by Ramkesh RS ❤️</div>
+        </footer>
+    </div>
+
+    <!-- Order Modal -->
+    <div id="order-modal" class="modal" aria-hidden="true">
+        <div class="card" role="dialog" aria-modal="true">
+            <form id="order-form">
+                <h3 style="margin:0">Order</h3>
+                <input id="name" placeholder="Name" required />
+                <input id="email" placeholder="Email" required />
+                <input id="address" placeholder="Address" required />
+                <input id="phone" placeholder="Mobile" required />
+                <label style="margin-top:6px">Quantity</label>
+                <input id="quantity" type="number" min="1" value="1" required />
+                <input type="hidden" id="selectedBookId" />
+                <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
+                    <button type="button" class="btn ghost" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn">Pay by UPI</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success -->
+    <div id="order-success" class="modal" aria-hidden="true">
+        <div class="card" style="text-align:center">
+            <h3 style="margin:0">Order Placed</h3>
+            <div id="upi-qr" style="margin:10px 0"></div>
+            <div id="upi-details" style="margin-bottom:8px;font-size:14px;color:var(--muted)"></div>
+            <a id="upi-link" class="btn">Open UPI</a>
+            <div style="margin-top:8px"><button class="btn ghost" onclick="closeSuccess()">Done</button></div>
+        </div>
+    </div>
+
+    <script>
+        // data
+        const BOOKS_COUNT = 200;
+        const books = Array.from({
+            length: BOOKS_COUNT
+        }).map((_, i) => ({
+            id: i + 1,
+            title: `Book ${i+1}`,
+            author: `Author ${i+1}`,
+            price: 150 + Math.floor(Math.random() * 250),
+            img: `https://picsum.photos/seed/book${i+1}/400/600`
+        }));
+        // UPI details (updated as requested)
+        const ourUpiId = 'ramkeshrs566-1@okhdfcbank';
+        const ourUpiNumber = '8090778226';
+        const ourUpiName = 'Ramkesh';
+
+        const booksDiv = document.getElementById('books');
+
+        // render
+        function renderBooks(list = books) {
+            booksDiv.innerHTML = '';
+            list.forEach(b => {
+                const card = document.createElement('div');
+                card.className = 'book-card';
+                card.innerHTML = `\n          <img src="${b.img}" class="book-cover" alt="${escapeHtml(b.title)}"/>\n          <div class="book-title">${escapeHtml(b.title)}</div>\n          <div class="book-author">${escapeHtml(b.author)}</div>\n          <div style="height:8px"></div>\n          <div class="book-footer">\n            <div>\n              <div class=\"price\">₹${b.price}</div>\n              <div style=\"font-size:12px;color:var(--muted)\">per copy</div>\n            </div>\n            <div style=\"display:flex;gap:8px\">\n              <button class=\"btn\" onclick=\"openOrder(${b.id})\">Buy</button>\n              <button class=\"btn ghost\" onclick=\"saveBook(${b.id})\">Save</button>\n            </div>\n          </div>`;
+                booksDiv.appendChild(card);
+            });
+        }
+
+        function escapeHtml(s) {
+            return (s + '').replace(/[&<>'"]/g, ch => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": "&#39;"
+            }[ch]));
+        }
+
+        renderBooks();
+
+        // modal open/close
+        window.openOrder = function(bookId) {
+            document.getElementById('order-modal').style.display = 'flex';
+            document.getElementById('order-modal').setAttribute('aria-hidden', 'false');
+            document.getElementById('selectedBookId').value = bookId;
+            document.getElementById('quantity').value = 1;
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        function closeModal() {
+            document.getElementById('order-modal').style.display = 'none';
+            document.getElementById('order-modal').setAttribute('aria-hidden', 'true');
+        }
+
+        function closeSuccess() {
+            document.getElementById('order-success').style.display = 'none';
+            document.getElementById('order-success').setAttribute('aria-hidden', 'true');
+        }
+
+        // order submit
+        document.getElementById('order-form').onsubmit = function(e) {
+            e.preventDefault();
+            const id = Number(document.getElementById('selectedBookId').value);
+            const book = books.find(x => x.id === id);
+            if (!book) {
+                alert('Book not found');
+                return;
+            }
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const address = document.getElementById('address').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const qty = Math.max(1, Number(document.getElementById('quantity').value) || 1);
+            if (!name || !email || !address || !phone) {
+                alert('सब फ़ील्ड भरें');
+                return;
+            }
+            const amount = (book.price * qty).toFixed(2);
+            const upiLink = `upi://pay?pa=${ourUpiId}&pn=${encodeURIComponent(name)}&tn=Book:${encodeURIComponent(book.title)}%20(x${qty})&am=${amount}&cu=INR`; // save order
+            try {
+                const orders = JSON.parse(localStorage.getItem('lm_orders') || '[]');
+                const ord = {
+                    id: Date.now(),
+                    book,
+                    qty,
+                    name,
+                    email,
+                    address,
+                    phone,
+                    amount,
+                    date: new Date().toISOString()
+                };
+                orders.push(ord);
+                localStorage.setItem('lm_orders', JSON.stringify(orders));
+            } catch (e) {
+                console.error(e);
+            }
+            document.getElementById('order-modal').style.display = 'none';
+            document.getElementById('order-success').style.display = 'flex';
+            document.getElementById('order-success').setAttribute('aria-hidden', 'false');
+            document.getElementById('upi-link').href = upiLink;
+            document.getElementById('upi-link').innerText = `Pay ₹${amount} via UPI`;
+            document.getElementById('upi-qr').innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(upiLink)}&size=200x200" alt="UPI QR" />`;
+            // show explicit UPI details as well
+            document.getElementById('upi-details').innerHTML = `UPI ID: <strong>${ourUpiId}</strong> &nbsp; | &nbsp; Phone: <strong>${ourUpiNumber}</strong> &nbsp; | &nbsp; Name: <strong>${ourUpiName}</strong>`;
+        };
+
+        // save book
+        function saveBook(id) {
+            const b = books.find(x => x.id === id);
+            if (!b) return;
+            try {
+                const arr = JSON.parse(localStorage.getItem('saved_books') || '[]');
+                if (arr.find(x => x.id === b.id)) {
+                    alert('Already saved');
+                    return;
+                }
+                arr.push(b);
+                localStorage.setItem('saved_books', JSON.stringify(arr));
+                alert('Saved');
+            } catch (e) {
+                alert('Save failed');
+            }
+        }
+
+        // menu actions
+        const menuBtn = document.getElementById('menuBtn');
+        const menu = document.getElementById('menu');
+        menuBtn.addEventListener('click', e => {
+            e.stopPropagation();
+            const open = menu.style.display === 'block';
+            menu.style.display = open ? 'none' : 'block';
+            menuBtn.setAttribute('aria-expanded', String(!open));
+            menu.setAttribute('aria-hidden', String(open));
+        });
+        document.addEventListener('click', e => {
+            if (!menu.contains(e.target) && e.target !== menuBtn) {
+                menu.style.display = 'none';
+                menuBtn.setAttribute('aria-expanded', 'false');
+                menu.setAttribute('aria-hidden', 'true');
+            }
+        });
+
+        function showHistory() {
+            const orders = JSON.parse(localStorage.getItem('lm_orders') || '[]');
+            if (!orders.length) {
+                alert('No orders');
+                menu.style.display = 'none';
+                return;
+            }
+            const out = orders.slice().reverse().map(o => `${o.date.split('T')[0]} — ${o.book.title} (x${o.qty}) — ₹${o.amount} — ${o.name}`).join('\n');
+            alert(out);
+            menu.style.display = 'none';
+        }
+
+        function showSaved() {
+            const s = JSON.parse(localStorage.getItem('saved_books') || '[]');
+            if (!s.length) {
+                alert('No saved books');
+                menu.style.display = 'none';
+                return;
+            }
+            const out = s.map(x => `${x.title} — ${x.author} — ₹${x.price}`).join('\n');
+            alert(out);
+            menu.style.display = 'none';
+        }
+
+        function collectFeedback() {
+            const fb = prompt('Feedback:');
+            if (!fb) {
+                menu.style.display = 'none';
+                return;
+            }
+            const arr = JSON.parse(localStorage.getItem('lm_feedback') || '[]');
+            arr.push({
+                text: fb,
+                date: new Date().toISOString()
+            });
+            localStorage.setItem('lm_feedback', JSON.stringify(arr));
+            alert('Thanks');
+            menu.style.display = 'none';
+        }
+
+        function exportOrders() {
+            const orders = JSON.parse(localStorage.getItem('lm_orders') || '[]');
+            if (!orders.length) {
+                alert('No orders');
+                menu.style.display = 'none';
+                return;
+            }
+            const blob = new Blob([JSON.stringify(orders, null, 2)], {
+                type: 'application/json'
+            });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'orders.json';
+            a.click();
+            URL.revokeObjectURL(url);
+            menu.style.display = 'none';
+        }
+
+        function clearOrders() {
+            if (!confirm('Delete all orders?')) {
+                menu.style.display = 'none';
+                return;
+            }
+            localStorage.removeItem('lm_orders');
+            alert('Removed');
+            menu.style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>

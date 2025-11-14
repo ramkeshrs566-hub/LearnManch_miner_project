@@ -1,0 +1,67 @@
+.teacher-register {
+    background: #0a1733;
+    color: #fff;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.teacher-register .container {
+    max-width: 700px;
+    margin: auto;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 30px 40px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.teacher-register h2 {
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: #4ea3ff;
+}
+
+.teacher-register p {
+    margin-bottom: 30px;
+    color: #d3d3d3;
+}
+
+.teacher-register .form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.teacher-register label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.teacher-register input,
+.teacher-register textarea {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.teacher-register input:focus,
+.teacher-register textarea:focus {
+    outline: 2px solid #4ea3ff;
+}
+
+.teacher-register .btn {
+    background: #4ea3ff;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.teacher-register .btn:hover {
+    background: #2b7ae6;
+}

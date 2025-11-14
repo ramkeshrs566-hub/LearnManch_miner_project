@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>EXCEL Tutorial | LearnManch</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
+
+        <nav class="sidebar" id="sidebar" aria-label="Excel navigation">
+            <h2>EXCEL Tutorial</h2>
+            <ul id="courseList" tabindex="0">
+                <li data-ref="home" class="active">EXCEL HOME</li>
+
+                <!-- Basics -->
+                <li data-ref="intro">Introduction</li>
+                <li data-ref="interface">Interface & Ribbon</li>
+                <li data-ref="workbooksheets">Workbooks & Worksheets</li>
+                <li data-ref="navigation">Navigation & Shortcuts</li>
+
+                <!-- Data Entry & Formatting -->
+                <li data-ref="dataentry">Data Entry Tips</li>
+                <li data-ref="formatting">Cell Formatting</li>
+                <li data-ref="conditional">Conditional Formatting</li>
+                <li data-ref="data-validation">Data Validation</li>
+
+                <!-- Formulas & Functions -->
+                <li data-ref="formulas">Formulas Basics</li>
+                <li data-ref="references">Cell References (Relative/Absolute)</li>
+                <li data-ref="functions">Common Functions</li>
+                <li data-ref="lookup">LOOKUP & REFERENCE (VLOOKUP/XLOOKUP/HLOOKUP/INDEX-MATCH)</li>
+                <li data-ref="text">Text Functions</li>
+                <li data-ref="date">Date & Time Functions</li>
+                <li data-ref="logical">Logical Functions (IF, AND, OR, IFS)</li>
+                <li data-ref="mathstat">Math & Statistical Functions</li>
+
+                <!-- Tables & Data tools -->
+                <li data-ref="tables">Excel Tables</li>
+                <li data-ref="pivot">Pivot Tables</li>
+                <li data-ref="powerquery">Power Query (Get & Transform)</li>
+                <li data-ref="powerpivot">Power Pivot & Data Model</li>
+
+                <!-- Charts & Visualization -->
+                <li data-ref="charts">Charts Basics</li>
+                <li data-ref="advanced-charts">Advanced Charts</li>
+                <li data-ref="sparklines">Sparklines & Conditional Charts</li>
+
+                <!-- Automation -->
+                <li data-ref="macros">Macros Basics</li>
+                <li data-ref="vba">VBA Intro</li>
+
+                <!-- Sharing & Protection -->
+                <li data-ref="protection">Protect Sheets & Workbooks</li>
+                <li data-ref="collab">Collaboration & Comments</li>
+                <li data-ref="print">Printing & Page Setup</li>
+
+                <!-- Import/Export & Integration -->
+                <li data-ref="import">Import / Export (CSV, TXT)</li>
+                <li data-ref="connect">Connecting to External Data</li>
+
+                <!-- Performance & Best Practices -->
+                <li data-ref="performance">Performance Tips</li>
+                <li data-ref="bestpractices">Best Practices</li>
+
+                <!-- Extras -->
+                <li data-ref="examples">Examples & Templates</li>
+                <li data-ref="faq">FAQ</li>
+            </ul>
+        </nav>
+
+        <main class="content" id="mainContent" tabindex="0">
+            <h1>EXCEL HOME</h1>
+            <p>Welcome to Excel Tutorial. Select a topic from the list to start learning.</p>
+        </main>
+    </div>
+
+    <footer>
+        <p>© 2025 LearnManch | Designed by Mr. Ramkesh RS ❤️ for learners.</p>
+    </footer>
+
+    <style>
+         :root {
+            --bg: #001733;
+            --sidebar: #02234d;
+            --content: #06204a;
+            --accent: #19b168;
+            --heading: #36b6ff;
+            --muted: #d8e9fa;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        html,
+        body {
+            height: 100%;
+        }
+        
+        body {
+            margin: 0;
+            -webkit-font-smoothing: antialiased;
+            font-family: "Poppins", system-ui, sans-serif;
+            background: var(--bg);
+            color: #fff;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            display: flex;
+            min-height: calc(100vh - 56px);
+            position: relative;
+        }
+        
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 14px;
+            left: 14px;
+            background: var(--accent);
+            color: #012;
+            border: none;
+            padding: 10px 12px;
+            font-size: 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 1200;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+        }
+        
+        .sidebar {
+            background: var(--sidebar);
+            width: 250px;
+            padding: 0 0.6rem;
+            box-shadow: 2px 0 6px rgba(64, 64, 64, 0.10);
+            overflow-y: auto;
+            transition: transform 0.28s ease, box-shadow 0.28s ease;
+            z-index: 1000;
+        }
+        
+        .sidebar h2 {
+            margin: 1.1rem 0 1.1rem 1rem;
+            font-size: 1.2rem;
+            color: #59baef;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .sidebar li {
+            padding: 11px 1.1rem;
+            margin-bottom: 2px;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: background 0.18s, color 0.18s;
+            color: #e7e7e7;
+            font-size: 1rem;
+            user-select: none;
+        }
+        
+        .sidebar li.active,
+        .sidebar li:hover {
+            background: var(--accent);
+            color: #fff;
+            font-weight: 600;
+        }
+        
+        .content {
+            flex: 1;
+            padding: 2.2rem 2.5rem;
+            background: var(--content);
+            min-height: 100vh;
+        }
+        
+        .content h1,
+        .content h2 {
+            color: var(--heading);
+            text-align: center;
+            margin-top: 0;
+        }
+        
+        .content p,
+        .content pre,
+        .content code {
+            color: var(--muted);
+            line-height: 1.6;
+        }
+        
+        pre {
+            background: rgba(0, 0, 0, 0.14);
+            padding: 12px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+        
+        code {
+            font-family: "Courier New", Courier, monospace;
+            display: block;
+            white-space: pre;
+        }
+        
+        footer {
+            background: #011126;
+            color: #8ed0fc;
+            text-align: center;
+            padding: 12px 0 10px 0;
+            font-size: 1rem;
+            letter-spacing: 0.02em;
+        }
+        
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 220px;
+                min-width: 200px;
+            }
+            .content {
+                padding: 2rem 1.4rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .container {
+                flex-direction: column;
+            }
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                width: 86%;
+                max-width: 360px;
+                transform: translateX(-115%);
+                padding-top: 72px;
+                box-shadow: 10px 0 36px rgba(0, 0, 0, 0.5);
+                background: linear-gradient(180deg, var(--sidebar) 0%, #021b36 100%);
+                border-right: 1px solid rgba(255, 255, 255, 0.02);
+                -webkit-overflow-scrolling: touch;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            body.sidebar-open::after {
+                content: "";
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.45);
+                z-index: 900;
+                backdrop-filter: blur(2px);
+            }
+            .content {
+                padding: 1.2rem 1rem;
+                min-height: calc(100vh - 56px);
+            }
+            .sidebar li {
+                padding: 14px 1.2rem;
+                font-size: 1.02rem;
+            }
+            .sidebar h2 {
+                margin-left: 1.2rem;
+                font-size: 1.1rem;
+            }
+            footer {
+                position: relative;
+                z-index: 1;
+            }
+        }
+        
+        @media (max-width: 420px) {
+            .menu-toggle {
+                top: 10px;
+                left: 10px;
+                padding: 10px 12px;
+                border-radius: 10px;
+                font-size: 22px;
+            }
+            .sidebar {
+                width: 92%;
+            }
+            .sidebar li {
+                padding: 16px 1.25rem;
+                font-size: 1.04rem;
+            }
+            .content {
+                padding: 1rem;
+            }
+        }
+        
+        .sidebar li:focus {
+            outline: 3px solid rgba(25, 177, 104, 0.14);
+            outline-offset: 2px;
+        }
+        
+        .menu-toggle:focus {
+            outline: 3px solid rgba(25, 177, 104, 0.18);
+        }
+    </style>
+
+    <script>
+        const lessons = {
+            home: {
+                title: "EXCEL HOME",
+                content: `<p>Excel basics and tools — choose a topic from the side menu.</p>`
+            },
+
+            intro: {
+                title: "Introduction",
+                content: `<h2>Overview</h2><p>Excel is a spreadsheet app for storing, analyzing, and visualizing tabular data.</p>`
+            },
+            interface: {
+                title: "Interface & Ribbon", content: `<h2>Ribbon & Tabs</h2><p>Learn Ribbon, Quick Access Toolbar, Formula Bar and Status Bar.</p>`
+            },
+            workbooksheets: {
+                title: "Workbooks & Worksheets",
+                content: `<h2>Workbooks & Sheets</h2><p>Create, rename, move and organize sheets. Use multiple workbooks and linking.</p>`
+            },
+            navigation: {
+                title: "Navigation & Shortcuts",
+                content: `<h2>Navigation</h2><p>Keyboard shortcuts, Go To (F5), Name Box, freeze panes and splitting windows.</p>`
+            },
+
+            dataentry: {
+                title: "Data Entry Tips",
+                content: `<h2>Fast Entry</h2><p>AutoFill, Flash Fill, series, fill handle and paste special techniques.</p>`
+            },
+            formatting: {
+                title: "Cell Formatting",
+                content: `<h2>Formatting</h2><p>Number formats, alignment, borders, custom number formats and styles.</p>`
+            },
+            conditional: {
+                title: "Conditional Formatting",
+                content: `<h2>Conditional Formatting</h2><p>Highlight rules, data bars, color scales and icon sets.</p>`
+            },
+            "data-validation": {
+                title: "Data Validation",
+                content: `<h2>Validation</h2><p>Restrict inputs with lists, ranges, custom formulas and input messages.</p>`
+            },
+
+            formulas: {
+                title: "Formulas Basics",
+                content: `<h2>Formulas</h2><p>Start with =, use arithmetic, order of operations and basic error handling (#DIV/0!, #N/A).</p>`
+            },
+            references: {
+                title: "Cell References",
+                content: `<h2>Relative / Absolute</h2><p>Use $A$1, A$1, $A1 to control references and copying formulas.</p>`
+            },
+            functions: {
+                title: "Common Functions",
+                content: `<h2>Functions</h2><p>SUM, AVERAGE, COUNT, COUNTA, MIN, MAX and examples.</p>`
+            },
+            lookup: {
+                title: "LOOKUP & REFERENCE",
+                content: `<h2>Lookup Functions</h2><p>VLOOKUP, HLOOKUP, INDEX + MATCH, and XLOOKUP usage and examples.</p>`
+            },
+            text: {
+                title: "Text Functions",
+                content: `<h2>Text</h2><p>CONCAT/CONCATENATE, TEXT, LEFT, RIGHT, MID, TRIM, UPPER/LOWER, SUBSTITUTE.</p>`
+            },
+            date: {
+                title: "Date & Time Functions",
+                content: `<h2>Date & Time</h2><p>TODAY, NOW, DATE, NETWORKDAYS, EOMONTH, DATEDIF and formatting dates.</p>`
+            },
+            logical: {
+                title: "Logical Functions",
+                content: `<h2>Logical</h2><p>IF, IFS, AND, OR, SWITCH examples and nested logic.</p>`
+            },
+            mathstat: {
+                title: "Math & Statistical",
+                content: `<h2>Math & Stats</h2><p>ROUND, ROUNDUP, ROUNDDOWN, SUMIFS, COUNTIFS, AVERAGEIFS and percent calculations.</p>`
+            },
+
+            tables: {
+                title: "Excel Tables",
+                content: `<h2>Tables</h2><p>Create tables (Insert → Table), structured references, table styles and totals row.</p>`
+            },
+            pivot: {
+                title: "Pivot Tables",
+                content: `<h2>Pivot Tables</h2><p>Create pivot tables, fields, grouping, slicers and summarizing large datasets.</p>`
+            },
+            powerquery: {
+                title: "Power Query",
+                content: `<h2>Power Query</h2><p>ETL in Excel: import, transform and load data with Power Query.</p>`
+            },
+            powerpivot: {
+                title: "Power Pivot",
+                content: `<h2>Power Pivot</h2><p>Data Model, relationships, DAX basics and building analytical models.</p>`
+            },
+
+            charts: {
+                title: "Charts Basics",
+                content: `<h2>Charts</h2><p>Insert chart types (column, line, pie), format axes, legends and data labels.</p>`
+            },
+            "advanced-charts": {
+                title: "Advanced Charts",
+                content: `<h2>Advanced Charts</h2><p>Combo charts, secondary axis, waterfall, radar and combo visualizations.</p>`
+            },
+            sparklines: {
+                title: "Sparklines",
+                content: `<h2>Sparklines</h2><p>Mini inline charts to show trends inside cells.</p>`
+            },
+
+            macros: {
+                title: "Macros Basics",
+                content: `<h2>Macros</h2><p>Record macros, run macros, assign to buttons and macro security settings.</p>`
+            },
+            vba: {
+                title: "VBA Intro",
+                content: `<h2>VBA</h2><p>Basic VBA editor, writing simple procedures, object model (Range, Worksheet, Workbook).</p>`
+            },
+
+            protection: {
+                title: "Protect Sheets & Workbooks",
+                content: `<h2>Protection</h2><p>Lock cells, protect sheets/workbooks and set passwords (note: not fully secure).</p>`
+            },
+            collab: {
+                title: "Collaboration & Comments",
+                content: `<h2>Collaboration</h2><p>Share workbooks, comments/notes, co-authoring in Office 365 and version history.</p>`
+            },
+            print: {
+                title: "Printing & Page Setup",
+                content: `<h2>Printing</h2><p>Page layout, print area, headers/footers, page breaks and scaling for print.</p>`
+            },
+
+            import: {
+                title: "Import / Export",
+                content: `<h2>Import/Export</h2><p>CSV, TXT, Excel to other formats and data import options.</p>`
+            },
+            connect: {
+                title: "Connecting to External Data",
+                content: `<h2>External Data</h2><p>Connect to SQL, web, ODBC, and refresh settings.</p>`
+            },
+
+            performance: {
+                title: "Performance Tips",
+                content: `<h2>Performance</h2><ul><li>Avoid volatile functions (NOW, RAND) where possible</li><li>Use ranges instead of entire columns in formulas</li><li>Turn off automatic calculation for large models when editing</li></ul>`
+            },
+            bestpractices: {
+                title: "Best Practices",
+                content: `<h2>Best Practices</h2><p>Use clear sheet structure, naming, backup, documentation and avoid hard-coded values in formulas.</p>`
+            },
+
+            examples: {
+                title: "Examples & Templates",
+                content: `<h2>Examples</h2><p>Budget template, expense tracker, sales dashboard example and downloadable templates.</p>`
+            },
+            faq: {
+                title: "FAQ",
+                content: `<h2>FAQ</h2><p>Common Excel questions and quick answers.</p>`
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+            const items = document.querySelectorAll('#courseList li');
+            const main = document.getElementById('mainContent');
+
+            const load = (ref) => {
+                const l = lessons[ref];
+                main.innerHTML = l ? `<h1>${l.title}</h1>${l.content}` : '<h1>Coming Soon</h1>';
+            };
+
+            items.forEach(li => {
+                li.addEventListener('click', function() {
+                    items.forEach(x => x.classList.remove('active'));
+                    this.classList.add('active');
+                    load(this.getAttribute('data-ref'));
+
+                    // on mobile close sidebar
+                    if (window.innerWidth <= 768) {
+                        sidebar.classList.remove('open');
+                        document.body.classList.remove('sidebar-open');
+                        if (menuToggle) menuToggle.setAttribute('aria-expanded', 'false');
+                    }
+                });
+
+                li.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        li.click();
+                    }
+                });
+            });
+
+            if (menuToggle) {
+                menuToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    sidebar.classList.toggle('open');
+                    document.body.classList.toggle('sidebar-open');
+                    const expanded = sidebar.classList.contains('open');
+                    menuToggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+                });
+            }
+
+            // close on outside click (mobile)
+            document.addEventListener('click', function(e) {
+                if (window.innerWidth > 768) return;
+                if (!sidebar.contains(e.target) && !menuToggle.contains(e.target) && sidebar.classList.contains('open')) {
+                    sidebar.classList.remove('open');
+                    document.body.classList.remove('sidebar-open');
+                    if (menuToggle) menuToggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            // close on escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+                    sidebar.classList.remove('open');
+                    document.body.classList.remove('sidebar-open');
+                    if (menuToggle) menuToggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            // reset on resize
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    sidebar.classList.remove('open');
+                    document.body.classList.remove('sidebar-open');
+                    if (menuToggle) menuToggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            // initial load
+            load('home');
+        });
+    </script>
+</body>
+
+</html>

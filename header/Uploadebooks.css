@@ -1,0 +1,289 @@
+/* Basic layout and colors matching your contact page (dark blue gradient) */
+
+:root {
+    --bg-top: #001526;
+    --bg-bottom: #04263b;
+    --card: #002b5c;
+    --accent: #0abaff;
+    --muted: #bcdcf6;
+}
+
+* {
+    box-sizing: border-box
+}
+
+body {
+    margin: 0;
+    font-family: "Poppins", system-ui, Arial, sans-serif;
+    background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+    color: #eaf6ff;
+    min-height: 100vh;
+}
+
+
+/* header */
+
+.site-header {
+    padding: 40px 24px;
+    text-align: left;
+    background: rgba(0, 0, 0, 0.12);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.site-header h1 {
+    margin: 0 0 6px 0;
+    font-size: 28px;
+    letter-spacing: 0.2px;
+}
+
+.site-header .subtitle {
+    margin: 0;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+
+/* main layout */
+
+.container {
+    display: flex;
+    gap: 30px;
+    padding: 30px 40px;
+    align-items: flex-start;
+}
+
+
+/* upload panel */
+
+.upload-panel {
+    width: 360px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.06));
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.upload-panel h2 {
+    margin: 0 0 12px 0;
+    color: var(--accent)
+}
+
+.row {
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px
+}
+
+.row label {
+    font-size: 13px;
+    color: #cfeeff
+}
+
+input[type="text"],
+select,
+input[type="file"] {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    background: #021a2b;
+    color: #fff;
+    font-size: 14px;
+}
+
+input[type="file"] {
+    padding: 6px;
+    background: transparent
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 6px
+}
+
+.btn {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background: transparent;
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.btn.primary {
+    background: var(--accent);
+    color: #001f3f;
+    box-shadow: 0 6px 18px rgba(10, 186, 255, 0.12);
+}
+
+
+/* library panel */
+
+.library-panel {
+    flex: 1;
+    min-width: 420px;
+}
+
+.library-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.library-header h2 {
+    margin: 0;
+    color: var(--accent)
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+    align-items: center
+}
+
+.controls input[type="text"] {
+    padding: 10px 12px;
+    width: 320px;
+    border-radius: 8px;
+    border: none;
+    background: #021a2b;
+    color: #fff;
+}
+
+.controls select {
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: #021a2b;
+    color: #fff;
+    border: none;
+}
+
+
+/* books grid */
+
+.books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 18px;
+}
+
+
+/* book card */
+
+.book-card {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.06));
+    border-radius: 12px;
+    padding: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.02);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 140px;
+}
+
+.book-top {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.book-thumb {
+    width: 56px;
+    height: 75px;
+    flex: 0 0 56px;
+    border-radius: 6px;
+    background: linear-gradient(180deg, #003a6b, #01243a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 18px;
+}
+
+.book-meta h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #e9f8ff;
+}
+
+.book-meta p {
+    margin: 4px 0 0 0;
+    font-size: 13px;
+    color: var(--muted)
+}
+
+
+/* actions */
+
+.card-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: auto;
+}
+
+.action-btn {
+    flex: 1;
+    padding: 8px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background: #012a43;
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.action-btn.view {
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid rgba(10, 186, 255, 0.12)
+}
+
+.action-btn.delete {
+    background: #2b1c2d;
+    color: #ff9aa2
+}
+
+
+/* empty state */
+
+.empty {
+    grid-column: 1/-1;
+    text-align: center;
+    color: var(--muted);
+    padding: 40px 10px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.01);
+}
+
+
+/* footer */
+
+.site-footer {
+    padding: 18px 40px;
+    color: #abcfe9;
+    border-top: 1px solid rgba(255, 255, 255, 0.02);
+    margin-top: 30px;
+}
+
+
+/* responsive */
+
+@media (max-width:920px) {
+    .container {
+        flex-direction: column;
+        padding: 20px
+    }
+    .upload-panel {
+        width: 100%
+    }
+    .controls input[type="text"] {
+        width: 180px
+    }
+}

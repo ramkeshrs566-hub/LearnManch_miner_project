@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>C Tutorial | LearnManch</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
+        <nav class="sidebar" id="sidebar" aria-label="C navigation">
+            <h2>C Tutorial</h2>
+            <ul id="courseList" tabindex="0">
+                <li data-ref="home" class="active">C HOME</li>
+                <li data-ref="introduction">Introduction</li>
+                <li data-ref="history">History of C</li>
+                <li data-ref="setup">Setup (GCC / IDE)</li>
+                <li data-ref="syntax">Syntax & Hello World</li>
+                <li data-ref="datatypes">Data Types</li>
+                <li data-ref="operators">Operators</li>
+                <li data-ref="control">Control Flow (if/switch)</li>
+                <li data-ref="loops">Loops (for/while/do)</li>
+                <li data-ref="functions">Functions</li>
+                <li data-ref="recursion">Recursion</li>
+                <li data-ref="arrays">Arrays</li>
+                <li data-ref="strings">Strings</li>
+                <li data-ref="pointers">Pointers (Basics)</li>
+                <li data-ref="pointer-advanced">Pointers (Advanced)</li>
+                <li data-ref="dynamic">Dynamic Memory (malloc/free)</li>
+                <li data-ref="structures">Structures</li>
+                <li data-ref="unions">Unions & Enums</li>
+                <li data-ref="fileio">File I/O</li>
+                <li data-ref="preprocessor">Preprocessor & Macros</li>
+                <li data-ref="header">Header Files & Modular Code</li>
+                <li data-ref="makefile">Makefile Basics</li>
+                <li data-ref="debugging">Debugging (gdb)</li>
+                <li data-ref="stdlib">C Standard Library</li>
+                <li data-ref="bitwise">Bitwise Operations</li>
+                <li data-ref="data-structures">Data Structures (Linked List)</li>
+                <li data-ref="sorting">Sorting Algorithms</li>
+                <li data-ref="searching">Searching Algorithms</li>
+                <li data-ref="complex">Complex Programs / Projects</li>
+                <li data-ref="tips">Tips & Best Practices</li>
+                <li data-ref="exercises">Exercises & Problems</li>
+                <li data-ref="interview">Interview Questions</li>
+                <li data-ref="faq">FAQ</li>
+            </ul>
+        </nav>
+        <main class="content" id="mainContent" tabindex="0">
+            <h1>C HOME</h1>
+            <p>Welcome to the C Tutorial. Select a topic from the list to start learning.</p>
+        </main>
+    </div>
+    <footer>
+        <p>© 2025 LearnManch | Designed by Mr. Ramkesh RS ❤️ for learners.</p>
+    </footer>
+
+    <style>
+        /* base styles (consistent with your other pages) */
+        
+         :root {
+            --bg: #001733;
+            --sidebar: #02234d;
+            --content: #06204a;
+            --accent: #19b168;
+            --heading: #36b6ff;
+            --muted: #d8e9fa;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        html,
+        body {
+            height: 100%;
+        }
+        
+        body {
+            margin: 0;
+            font-family: "Poppins", system-ui;
+            background: var(--bg);
+            color: #fff;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            display: flex;
+            min-height: calc(100vh - 56px);
+            position: relative;
+        }
+        
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 14px;
+            left: 14px;
+            background: var(--accent);
+            color: #012;
+            border: none;
+            padding: 10px 12px;
+            font-size: 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 1200;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+        }
+        
+        .sidebar {
+            background: var(--sidebar);
+            width: 250px;
+            padding: 0 .6rem;
+            box-shadow: 2px 0 6px rgba(64, 64, 64, 0.10);
+            overflow-y: auto;
+            transition: transform 0.28s ease, box-shadow 0.28s ease;
+            z-index: 1000;
+        }
+        
+        .sidebar h2 {
+            color: #59baef;
+            padding-left: .6rem;
+            margin: 1rem 0;
+            font-size: 1.15rem;
+            font-weight: 600;
+        }
+        
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 2rem 0;
+        }
+        
+        .sidebar li {
+            padding: 12px 1.1rem;
+            margin-bottom: 4px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background 0.18s, color 0.18s, transform 0.12s;
+            color: var(--d8e9fa, #d8e9fa);
+            user-select: none;
+            font-size: 1rem;
+        }
+        
+        .sidebar li.active,
+        .sidebar li:hover {
+            background: var(--accent);
+            color: #fff;
+            font-weight: 600;
+        }
+        
+        .content {
+            flex: 1;
+            padding: 2.4rem 2.6rem;
+            background: var(--content);
+            min-height: 100vh;
+        }
+        
+        .content h1,
+        .content h2 {
+            color: var(--heading);
+            text-align: center;
+            margin-top: 0;
+        }
+        
+        .content p,
+        .content pre,
+        .content code {
+            color: var(--muted);
+            line-height: 1.6;
+        }
+        
+        pre {
+            background: rgba(0, 0, 0, 0.14);
+            padding: 12px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+        
+        code {
+            font-family: "Courier New", Courier, monospace;
+            display: block;
+            white-space: pre;
+        }
+        
+        footer {
+            background: #011126;
+            color: #8ed0fc;
+            text-align: center;
+            padding: 12px 0;
+        }
+        
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 220px;
+                min-width: 200px;
+            }
+            .content {
+                padding: 2rem 1.4rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .container {
+                flex-direction: column;
+            }
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                width: 86%;
+                max-width: 360px;
+                transform: translateX(-115%);
+                padding-top: 72px;
+                box-shadow: 10px 0 36px rgba(0, 0, 0, 0.5);
+                background: linear-gradient(180deg, var(--sidebar) 0%, #021b36 100%);
+                border-right: 1px solid rgba(255, 255, 255, 0.02);
+                -webkit-overflow-scrolling: touch;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            body.sidebar-open::after {
+                content: "";
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.45);
+                z-index: 900;
+                backdrop-filter: blur(2px);
+            }
+            .content {
+                padding: 1.2rem 1rem;
+                min-height: calc(100vh - 56px);
+            }
+            .sidebar li {
+                padding: 14px 1.2rem;
+                font-size: 1.02rem;
+            }
+            .sidebar h2 {
+                margin-left: 1.2rem;
+                font-size: 1.1rem;
+            }
+        }
+        
+        @media (max-width: 420px) {
+            .menu-toggle {
+                top: 10px;
+                left: 10px;
+                padding: 10px 12px;
+                border-radius: 10px;
+                font-size: 22px;
+            }
+            .sidebar {
+                width: 92%;
+            }
+            .sidebar li {
+                padding: 16px 1.25rem;
+                font-size: 1.04rem;
+            }
+            .content {
+                padding: 1rem;
+            }
+        }
+        
+        .sidebar li:focus {
+            outline: 3px solid rgba(25, 177, 104, 0.14);
+            outline-offset: 2px;
+        }
+        
+        .menu-toggle:focus {
+            outline: 3px solid rgba(25, 177, 104, 0.18);
+        }
+    </style>
+
+    <script>
+        // Expanded lessons data for C topics
+        const lessons = {
+            home: {
+                title: "C HOME",
+                content: `<p>Welcome to the C Tutorial. Select a topic from the list to start learning.</p>`
+            },
+            introduction: {
+                title: "Introduction",
+                content: `<h2>What is C?</h2><p>C is a general-purpose procedural programming language widely used for system/software development.</p>`
+            },
+            history: {
+                title: "History of C",
+                content: `<h2>History</h2><p>C was developed at Bell Labs by Dennis Ritchie between 1969–1973.</p>`
+            },
+            setup: {
+                title: "Setup (GCC / IDE)",
+                content: `<h2>Setup</h2><p>Install GCC or use IDEs like Code::Blocks, Dev-C++, or VSCode with C extensions.</p>`
+            },
+            syntax: {
+                title: "Syntax & Hello World",
+                content: `<h2>Hello World</h2><pre><code>#include &lt;stdio.h&gt;\nint main(void) {\n    printf(\"Hello, World!\\n\");\n    return 0;\n}</code></pre>`
+            },
+            datatypes: {
+                title: "Data Types",
+                content: `<h2>Data Types</h2><p>int, char, float, double, void and derived types.</p>`
+            },
+            operators: {
+                title: "Operators",
+                content: `<h2>Operators</h2><p>Arithmetic, relational, logical, bitwise, assignment and ternary operators.</p>`
+            },
+            control: {
+                title: "Control Flow (if/switch)",
+                content: `<h2>Control Flow</h2><p>Use if, else if, else, and switch-case for conditional branching.</p>`
+            },
+            loops: {
+                title: "Loops (for/while/do)",
+                content: `<h2>Loops</h2><p>for, while and do...while loops for repeated execution.</p>`
+            },
+            functions: {
+                title: "Functions",
+                content: `<h2>Functions</h2><p>Declare and define functions, pass arguments, and return values.</p>`
+            },
+            recursion: {
+                title: "Recursion",
+                content: `<h2>Recursion</h2><p>Functions calling themselves — useful for factorial, fibonacci, tree traversals.</p>`
+            },
+            arrays: {
+                title: "Arrays",
+                content: `<h2>Arrays</h2><p>Static arrays for same-type collections of elements.</p>`
+            },
+            strings: {
+                title: "Strings",
+                content: `<h2>Strings</h2><p>Null-terminated char arrays, common string functions in &lt;string.h&gt;.</p>`
+            },
+            pointers: {
+                title: "Pointers (Basics)",
+                content: `<h2>Pointers</h2><p>Variables that store memory addresses. Example: <code>int *p = &x;</code></p>`
+            },
+            "pointer-advanced": {
+                title: "Pointers (Advanced)",
+                content: `<h2>Advanced Pointers</h2><p>Pointer to pointer, function pointers, pointer arithmetic.</p>`
+            },
+            dynamic: {
+                title: "Dynamic Memory (malloc/free)",
+                content: `<h2>Dynamic Memory</h2><p>Use malloc(), calloc(), realloc(), free() for heap allocation.</p>`
+            },
+            structures: {
+                title: "Structures",
+                content: `<h2>Structures</h2><p>Group related data using struct and nested structs.</p>`
+            },
+            unions: {
+                title: "Unions & Enums",
+                content: `<h2>Unions & Enums</h2><p>Union shares memory among members; enum defines named integer constants.</p>`
+            },
+            fileio: {
+                title: "File I/O",
+                content: `<h2>File I/O</h2><p>fopen(), fclose(), fread(), fwrite(), fprintf(), fscanf() for file operations.</p>`
+            },
+            preprocessor: {
+                title: "Preprocessor & Macros",
+                content: `<h2>Preprocessor</h2><p>#include, #define, #ifdef and conditional compilation.</p>`
+            },
+            header: {
+                title: "Header Files & Modular Code",
+                content: `<h2>Header Files</h2><p>Split code into .c and .h files, use include guards for headers.</p>`
+            },
+            makefile: {
+                title: "Makefile Basics",
+                content: `<h2>Makefile</h2><p>Write simple Makefiles to automate compilation: targets, dependencies, variables.</p>`
+            },
+            debugging: {
+                title: "Debugging (gdb)",
+                content: `<h2>Debugging</h2><p>Use gdb to set breakpoints, inspect variables and step through code.</p>`
+            },
+            stdlib: {
+                title: "C Standard Library",
+                content: `<h2>Standard Library</h2><p>Common headers: stdio.h, stdlib.h, string.h, math.h, time.h, etc.</p>`
+            },
+            bitwise: {
+                title: "Bitwise Operations",
+                content: `<h2>Bitwise</h2><p>Use &, |, ^, ~, <<, >> for bit manipulation and masks.</p>`
+            },
+            "data-structures": {
+                title: "Data Structures (Linked List)",
+                content: `<h2>Linked List</h2><p>Implement singly/doubly linked lists, insert/delete and traversal.</p>`
+            },
+            sorting: {
+                title: "Sorting Algorithms",
+                content: `<h2>Sorting</h2><p>Implement bubble, selection, insertion, merge, quick sort with examples.</p>`
+            },
+            searching: {
+                title: "Searching Algorithms",
+                content: `<h2>Searching</h2><p>Linear search, binary search and complexity discussion.</p>`
+            },
+            complex: {
+                title: "Complex Programs / Projects",
+                content: `<h2>Projects</h2><p>Build mini projects: student management, file-based DB, simple shell.</p>`
+            },
+            tips: {
+                title: "Tips & Best Practices",
+                content: `<h2>Tips</h2><p>Use meaningful names, check return values, free memory, avoid undefined behaviour.</p>`
+            },
+            exercises: {
+                title: "Exercises & Problems",
+                content: `<h2>Exercises</h2><p>Practice problems: prime check, matrix multiply, linked list ops, recursion tasks.</p>`
+            },
+            interview: {
+                title: "Interview Questions",
+                content: `<h2>Interview Qs</h2><p>Common C interview questions with short answers and code snippets.</p>`
+            },
+            faq: {
+                title: "FAQ",
+                content: `<h2>FAQ</h2><p>Frequently asked questions about learning and using C.</p>`
+            }
+        };
+
+        // Navigation & responsive behavior (keeps same behavior as other pages)
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+            const courseItems = document.querySelectorAll('#courseList li');
+            const mainContent = document.getElementById('mainContent');
+
+            const loadLesson = (ref) => {
+                const lesson = lessons[ref];
+                if (lesson) mainContent.innerHTML = `<h1>${lesson.title}</h1>` + lesson.content;
+                else mainContent.innerHTML = '<h1>Coming Soon</h1>';
+            };
+
+            courseItems.forEach(li => {
+                li.addEventListener('click', function() {
+                    courseItems.forEach(el => el.classList.remove('active'));
+                    this.classList.add('active');
+                    const ref = this.getAttribute('data-ref');
+                    loadLesson(ref);
+
+                    if (window.innerWidth <= 768) {
+                        sidebar.classList.remove('open');
+                        document.body.classList.remove('sidebar-open');
+                        if (menuToggle) menuToggle.setAttribute('aria-expanded', 'false');
+                    }
+                });
+
+                li.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        li.click();
+                    }
+                });
+            });
+
+            if (menuToggle) {
+                menuToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    sidebar.classList.toggle('open');
+                    document.body.classList.toggle('sidebar-open');
+                    const expanded = sidebar.classList.contains('open');
+                    menuToggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+                });
+            }
+
+            document.addEventListener('click', function(e) {
+                if (window.innerWidth > 768) return;
+                if (!sidebar.contains(e.target) && !menuToggle.contains(e.target) && sidebar.classList.contains('open')) {
+                    sidebar.classList.remove('open');
+                    document.body.classList.remove('sidebar-open');
+                    if (menuToggle) menuToggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+                    sidebar.classList.remove('open');
+                    document.body.classList.remove('sidebar-open');
+                    if (menuToggle) menuToggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    sidebar.classList.remove('open');
+                    document.body.classList.remove('sidebar-open');
+                    if (menuToggle) menuToggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            // initial load
+            loadLesson('home');
+        });
+    </script>
+</body>
+
+</html>

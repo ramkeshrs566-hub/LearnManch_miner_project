@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS Tutorial | LearnManch</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Hamburger toggle (mobile) -->
+        <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
+
+        <nav class="sidebar" id="sidebar">
+            <h2>CSS Tutorial</h2>
+            <ul id="courseList" tabindex="0">
+                <li data-ref="home" class="active">CSS HOME</li>
+                <li data-ref="introduction">CSS Introduction</li>
+                <li data-ref="syntax">CSS Syntax</li>
+                <li data-ref="selectors">CSS Selectors</li>
+                <li data-ref="colors">CSS Colors</li>
+                <li data-ref="backgrounds">CSS Backgrounds</li>
+                <li data-ref="borders">CSS Borders</li>
+                <li data-ref="margins">CSS Margins</li>
+                <li data-ref="padding">CSS Padding</li>
+                <li data-ref="heightwidth">CSS Height/Width</li>
+                <li data-ref="boxmodel">CSS Box Model</li>
+                <li data-ref="text">CSS Text</li>
+                <li data-ref="fonts">CSS Fonts</li>
+                <li data-ref="links">CSS Links</li>
+                <li data-ref="lists">CSS Lists</li>
+                <li data-ref="tables">CSS Tables</li>
+                <li data-ref="display">CSS Display</li>
+                <li data-ref="position">CSS Position</li>
+                <li data-ref="flexbox">CSS Flexbox</li>
+                <li data-ref="grid">CSS Grid</li>
+                <li data-ref="animation">CSS Animation</li>
+            </ul>
+        </nav>
+
+        <main class="content" id="mainContent" tabindex="0">
+            <h1>CSS HOME</h1>
+            <p>Welcome to the CSS Tutorial. Select a topic from the list to start learning.</p>
+        </main>
+    </div>
+
+    <footer>
+        <p>© 2025 LearnManch | Designed by Mr. Ramkesh RS ❤️ for learners.</p>
+    </footer>
+
+    <style>
+         :root {
+            --bg: #001733;
+            --sidebar: #02234d;
+            --content-bg: #06204a;
+            --accent: #19b168;
+            --heading: #36b6ff;
+            --muted: #d8e9fa;
+            --glass: rgba(0, 0, 0, 0.12);
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        html,
+        body {
+            height: 100%;
+        }
+        
+        body {
+            margin: 0;
+            -webkit-font-smoothing: antialiased;
+            font-family: "Poppins", system-ui, sans-serif;
+            background: var(--bg);
+            color: #fff;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            display: flex;
+            min-height: calc(100vh - 56px);
+            position: relative;
+        }
+        /* Hamburger toggle - hidden on desktop */
+        
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 14px;
+            left: 14px;
+            background: var(--accent);
+            color: #012;
+            border: none;
+            padding: 10px 12px;
+            font-size: 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 1200;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+        }
+        /* Sidebar */
+        
+        .sidebar {
+            background: var(--sidebar);
+            width: 250px;
+            min-width: 220px;
+            padding: 0 0.6rem;
+            box-shadow: 2px 0 6px rgba(64, 64, 64, 0.10);
+            overflow-y: auto;
+            transition: transform 0.28s ease, box-shadow 0.28s ease;
+            z-index: 1000;
+        }
+        
+        .sidebar h2 {
+            margin: 1.1rem 0 1.1rem 1rem;
+            font-size: 1.2rem;
+            color: #59baef;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .sidebar li {
+            padding: 12px 1.1rem;
+            margin-bottom: 4px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background 0.18s, color 0.18s, transform 0.12s;
+            color: #e7e7e7;
+            font-size: 1rem;
+            user-select: none;
+        }
+        
+        .sidebar li:active {
+            transform: translateY(1px);
+        }
+        
+        .sidebar li.active,
+        .sidebar li:hover {
+            background: var(--accent);
+            color: #fff;
+            font-weight: 600;
+        }
+        /* Content */
+        
+        .content {
+            flex: 1;
+            padding: 2.4rem 2.6rem;
+            background: var(--content-bg);
+            min-height: 100vh;
+            transition: padding 0.18s ease;
+        }
+        
+        .content h1,
+        .content h2 {
+            color: var(--heading);
+            text-align: center;
+            margin-top: 0;
+        }
+        
+        .content p,
+        .content pre,
+        .content code {
+            color: var(--muted);
+            line-height: 1.6;
+        }
+        
+        pre {
+            background: rgba(0, 0, 0, 0.14);
+            padding: 12px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+        
+        code {
+            font-family: "Courier New", Courier, monospace;
+            display: block;
+            white-space: pre;
+        }
+        
+        footer {
+            background: #011126;
+            color: #8ed0fc;
+            text-align: center;
+            padding: 12px 0 10px 0;
+            font-size: 1rem;
+            letter-spacing: 0.02em;
+        }
+        /* Responsive behavior */
+        
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 220px;
+                min-width: 200px;
+            }
+            .content {
+                padding: 2rem 1.4rem;
+            }
+        }
+        /* Mobile: overlay sidebar */
+        
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .container {
+                flex-direction: column;
+            }
+            /* Make sidebar overlay and hidden by default */
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                width: 86%;
+                max-width: 360px;
+                transform: translateX(-115%);
+                /* hidden */
+                padding-top: 72px;
+                /* space for toggle */
+                box-shadow: 10px 0 36px rgba(0, 0, 0, 0.5);
+                background: linear-gradient(180deg, var(--sidebar) 0%, #021b36 100%);
+                border-right: 1px solid rgba(255, 255, 255, 0.02);
+                -webkit-overflow-scrolling: touch;
+            }
+            /* Visible when open */
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            /* Dim backdrop when open (via body class) */
+            body.sidebar-open::after {
+                content: "";
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.45);
+                z-index: 900;
+                backdrop-filter: blur(2px);
+            }
+            .content {
+                padding: 1.2rem 1rem;
+                min-height: calc(100vh - 56px);
+            }
+            .sidebar li {
+                padding: 14px 1.2rem;
+                font-size: 1.02rem;
+            }
+            .sidebar h2 {
+                margin-left: 1.2rem;
+                font-size: 1.1rem;
+            }
+            footer {
+                position: relative;
+                z-index: 1;
+            }
+        }
+        /* Extra small screens tweaks */
+        
+        @media (max-width: 420px) {
+            .menu-toggle {
+                top: 10px;
+                left: 10px;
+                padding: 10px 12px;
+                border-radius: 10px;
+                font-size: 22px;
+            }
+            .sidebar {
+                width: 92%;
+            }
+            .sidebar li {
+                padding: 16px 1.25rem;
+                font-size: 1.04rem;
+            }
+            .content {
+                padding: 1rem;
+            }
+        }
+        /* Accessibility focus */
+        
+        .sidebar li:focus {
+            outline: 3px solid rgba(25, 177, 104, 0.14);
+            outline-offset: 2px;
+        }
+        
+        .menu-toggle:focus {
+            outline: 3px solid rgba(25, 177, 104, 0.18);
+        }
+    </style>
+
+    <script>
+        // Lessons data
+        const lessons = {
+            home: {
+                title: "CSS HOME",
+                content: `<p>Welcome to the CSS Tutorial. Select a topic from the list to get started.</p>`
+            },
+            introduction: {
+                title: "CSS Introduction",
+                content: `<h2>What is CSS?</h2>
+                <p>CSS stands for Cascading Style Sheets. It is used to style and layout web pages.</p>`
+            },
+            syntax: {
+                title: "CSS Syntax",
+                content: `<h2>CSS Syntax</h2>
+                <p>A CSS rule-set consists of a selector and a declaration block.</p>
+                <pre><code>selector {
+  property: value;
+}</code></pre>`
+            },
+            selectors: {
+                title: "CSS Selectors",
+                content: `<h2>CSS Selectors</h2>
+                <p>Selectors are used to target the HTML elements you want to style.</p>`
+            },
+            colors: {
+                title: "CSS Colors",
+                content: `<h2>CSS Colors</h2>
+                <p>Colors can be defined using names, HEX, RGB, or HSL values.</p>`
+            },
+            backgrounds: {
+                title: "CSS Backgrounds",
+                content: `<h2>CSS Backgrounds</h2>
+                <p>Used to set background color, image, position, and more.</p>`
+            },
+            borders: {
+                title: "CSS Borders",
+                content: `<h2>CSS Borders</h2>
+                <p>Borders can be styled using properties like border-style, border-width, and border-color.</p>`
+            },
+            margins: {
+                title: "CSS Margins",
+                content: `<h2>CSS Margins</h2>
+                <p>Margins are used to create space around elements.</p>`
+            },
+            padding: {
+                title: "CSS Padding",
+                content: `<h2>CSS Padding</h2>
+                <p>Padding defines the space between content and the element’s border.</p>`
+            },
+            heightwidth: {
+                title: "CSS Height and Width",
+                content: `<h2>CSS Height and Width</h2>
+                <p>These properties define the size of elements.</p>`
+            },
+            boxmodel: {
+                title: "CSS Box Model",
+                content: `<h2>CSS Box Model</h2>
+                <p>All HTML elements can be considered as boxes — it consists of margins, borders, padding, and content.</p>`
+            },
+            text: {
+                title: "CSS Text",
+                content: `<h2>CSS Text</h2>
+                <p>Used to control text color, alignment, spacing, decoration, and transformation.</p>`
+            },
+            fonts: {
+                title: "CSS Fonts",
+                content: `<h2>CSS Fonts</h2>
+                <p>Used to specify font family, size, style, and weight.</p>`
+            },
+            links: {
+                title: "CSS Links",
+                content: `<h2>CSS Links</h2>
+                <p>CSS can style different link states like hover, active, visited, and focus.</p>`
+            },
+            lists: {
+                title: "CSS Lists",
+                content: `<h2>CSS Lists</h2>
+                <p>Used to control list style type, position, and image markers.</p>`
+            },
+            tables: {
+                title: "CSS Tables",
+                content: `<h2>CSS Tables</h2>
+                <p>CSS allows styling of tables with borders, spacing, and background colors.</p>`
+            },
+            display: {
+                title: "CSS Display",
+                content: `<h2>CSS Display</h2>
+                <p>The display property determines how an element is shown on the web page.</p>`
+            },
+            position: {
+                title: "CSS Position",
+                content: `<h2>CSS Position</h2>
+                <p>Defines how an element is positioned (static, relative, absolute, fixed, sticky).</p>`
+            },
+            flexbox: {
+                title: "CSS Flexbox",
+                content: `<h2>CSS Flexbox</h2>
+                <p>A modern layout system that makes it easier to design flexible and responsive layouts.</p>`
+            },
+            grid: {
+                title: "CSS Grid",
+                content: `<h2>CSS Grid</h2>
+                <p>A powerful layout system for creating complex responsive grid structures.</p>`
+            },
+            animation: {
+                title: "CSS Animation",
+                content: `<h2>CSS Animation</h2>
+                <p>Used to animate HTML elements using keyframes.</p>`
+            }
+        };
+
+        // Navigation & content load
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+            const courseItems = document.querySelectorAll('#courseList li');
+            const mainContent = document.getElementById('mainContent');
+
+            // Load default content
+            const loadLesson = (ref) => {
+                const lesson = lessons[ref];
+                if (lesson) {
+                    mainContent.innerHTML = '<h1>' + lesson.title + '</h1>' + lesson.content;
+                } else {
+                    mainContent.innerHTML = '<h1>Coming Soon</h1>';
+                }
+            };
+
+            // Attach click handlers for nav items
+            courseItems.forEach(li => {
+                li.addEventListener('click', function() {
+                    courseItems.forEach(el => el.classList.remove('active'));
+                    this.classList.add('active');
+                    const ref = this.getAttribute('data-ref');
+                    loadLesson(ref);
+
+                    // on mobile, close sidebar after selection
+                    if (window.innerWidth <= 768) {
+                        closeSidebar();
+                    }
+                });
+
+                // keyboard support
+                li.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        li.click();
+                    }
+                });
+            });
+
+            // Sidebar open/close functions
+            const openSidebar = () => {
+                sidebar.classList.add('open');
+                document.body.classList.add('sidebar-open');
+                if (menuToggle) menuToggle.setAttribute('aria-expanded', 'true');
+            };
+            const closeSidebar = () => {
+                sidebar.classList.remove('open');
+                document.body.classList.remove('sidebar-open');
+                if (menuToggle) menuToggle.setAttribute('aria-expanded', 'false');
+            };
+
+            // Toggle button
+            if (menuToggle) {
+                menuToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (sidebar.classList.contains('open')) closeSidebar();
+                    else openSidebar();
+                });
+            }
+
+            // Close when clicking outside on mobile
+            document.addEventListener('click', function(e) {
+                if (window.innerWidth > 768) return;
+                if (!sidebar.contains(e.target) && !menuToggle.contains(e.target) && sidebar.classList.contains('open')) {
+                    closeSidebar();
+                }
+            });
+
+            // Close on Escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && sidebar.classList.contains('open')) closeSidebar();
+            });
+
+            // On resize make sure sidebar resets
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    sidebar.classList.remove('open');
+                    document.body.classList.remove('sidebar-open');
+                    if (menuToggle) menuToggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            // initial load
+            loadLesson('home');
+        });
+    </script>
+</body>
+
+</html>

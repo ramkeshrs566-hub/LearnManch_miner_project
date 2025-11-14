@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Smart MCQ Quiz Portal</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: "Poppins", sans-serif;
+            background: #001f3f;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 840px;
+            max-width: 100%;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 28px;
+            text-align: center;
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        h1,
+        h2,
+        h3 {
+            margin-bottom: 12px;
+        }
+        
+        select,
+        button {
+            padding: 10px 18px;
+            font-size: 15px;
+            margin-top: 10px;
+            border-radius: 6px;
+            border: none;
+        }
+        
+        button {
+            background: #007bff;
+            color: #fff;
+            cursor: pointer;
+            transition: all .22s;
+        }
+        
+        button:hover {
+            background: #0056b3;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        #options button {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.10);
+            color: #fff;
+            margin: 8px 0;
+            width: 100%;
+            text-align: left;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            transition: background .18s, transform .08s;
+            cursor: pointer;
+            font-size: 15px;
+        }
+        
+        #options button:hover {
+            background: rgba(0, 123, 255, 0.45);
+            transform: translateY(-2px);
+        }
+        
+        #options button.correct {
+            background: #28a745 !important;
+            color: #fff;
+        }
+        
+        #options button.wrong {
+            background: #dc3545 !important;
+            color: #fff;
+        }
+        
+        .opt-label {
+            min-width: 36px;
+            font-weight: 700;
+            text-align: center;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 6px 8px;
+        }
+        
+        #timer {
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #f1f1f1;
+        }
+        
+        .quiz-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        #question-box {
+            margin-top: 16px;
+            text-align: left;
+        }
+        
+        .meta {
+            font-size: 13px;
+            color: #d6dbe6;
+        }
+        
+        .controls {
+            margin-top: 12px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .small {
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+        
+        ol {
+            padding-left: 18px;
+        }
+        
+        @media(max-width:640px) {
+            .container {
+                padding: 18px
+            }
+            .opt-label {
+                min-width: 30px
+            }
+            select,
+            button {
+                font-size: 14px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>🧑‍🏫 Smart MCQ Quiz Portal</h1>
+        </header>
+
+        <section id="course-section">
+            <h2>Select your course</h2>
+            <select id="course-select"><option value="">-- Choose a Course --</option></select>
+            <div class="controls">
+                <button id="start-btn">Start Quiz</button>
+                <button id="shuffle-btn" class="small">Shuffle Questions</button>
+                <button id="time-btn" class="small">Toggle Timer (60s)</button>
+            </div>
+            <p class="meta">Each course contains at least 20 MCQs. You can replace or improve any question later.</p>
+        </section>
+
+        <section id="quiz-section" class="hidden">
+            <div class="quiz-header">
+                <h3 id="course-title"></h3>
+                <div id="timer">Time Left: <span id="time">60</span>s</div>
+            </div>
+
+            <div id="question-box">
+                <h2 id="question-text"></h2>
+                <div id="options"></div>
+            </div>
+
+            <div class="controls">
+                <button id="next-btn" class="hidden">Next Question</button>
+                <button id="quit-btn" class="small">Quit</button>
+            </div>
+        </section>
+
+        <section id="result-section" class="hidden">
+            <h2>Quiz Completed!</h2>
+            <p id="result-text"></p>
+            <div class="controls">
+                <button id="restart-btn">Restart</button>
+                <button id="review-btn" class="small">Review Answers</button>
+            </div>
+            <div id="review-area" class="hidden" style="margin-top:15px; text-align:left;"></div>
+        </section>
+    </div>
+
+    <script>
+        // ---------- Config ----------
+        const COURSE_NAMES = [
+            "HTML", "CSS", "JAVASCRIPT", "SQL", "PYTHON", "JAVA", "PHP", "HOW TO", "W3.CSS",
+            "C", "C++", "C#", "BOOTSTRAP", "REACT", "MYSQL", "JQUERY", "EXCEL"
+        ];
+        let DEFAULT_TIME = 60;
+
+        // ---------- Helpers ----------
+        function shuffleArray(a) {
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+
+        function generatePlaceholderQuestions(courseName) {
+            const qs = [];
+            for (let i = 1; i <= 20; i++) {
+                qs.push({
+                    q: `${courseName}: Question ${i} — Basic concept question?`,
+                    options: [
+                        `Correct option A (${courseName} Q${i})`,
+                        `Option B (${courseName} Q${i})`,
+                        `Option C (${courseName} Q${i})`,
+                        `Option D (${courseName} Q${i})`
+                    ],
+                    answer: 0
+                });
+            }
+            return qs;
+        }
+
+        // ---------- Real-style questions per course (some real, then fill to 20) ----------
+        function makeCourseQuestions(course) {
+            const list = [];
+            if (course === "HTML") {
+                list.push({
+                    q: "What does HTML stand for?",
+                    options: ["HyperText Markup Language", "HighText Machine Language", "Hyperlink Text Markup", "Home Tool Markup"],
+                    answer: 0
+                }, {
+                    q: "Which tag inserts a line break?",
+                    options: ["<br>", "<break>", "<lb>", "<line>"],
+                    answer: 0
+                }, {
+                    q: "Which attribute provides alternate text for images?",
+                    options: ["alt", "title", "src", "href"],
+                    answer: 0
+                }, {
+                    q: "Which element is used for a section heading?",
+                    options: ["<h1>", "<head>", "<header>", "<section>"],
+                    answer: 0
+                }, {
+                    q: "Which tag is used for hyperlinks?",
+                    options: ["<a>", "<link>", "<href>", "<url>"],
+                    answer: 0
+                }, {
+                    q: "HTML5 introduced which semantic element?",
+                    options: ["<article>", "<font>", "<center>", "<frame>"],
+                    answer: 0
+                }, {
+                    q: "Which tag is used for an unordered list?",
+                    options: ["<ul>", "<ol>", "<li>", "<list>"],
+                    answer: 0
+                }, {
+                    q: "Which attribute sets the source of an image?",
+                    options: ["src", "href", "link", "source"],
+                    answer: 0
+                });
+            } else if (course === "CSS") {
+                list.push({
+                    q: "What does CSS stand for?",
+                    options: ["Cascading Style Sheets", "Creative Style Sheets", "Computer Style Sheets", "Colorful Style Sheets"],
+                    answer: 0
+                }, {
+                    q: "Which property changes text color?",
+                    options: ["color", "text-color", "font-color", "fgcolor"],
+                    answer: 0
+                }, {
+                    q: "How do you select an element with id 'nav'?",
+                    options: ["#nav", ".nav", "nav", "*nav"],
+                    answer: 0
+                }, {
+                    q: "Which property controls layout in two dimensions (grid)?",
+                    options: ["grid-template", "flex", "display", "position"],
+                    answer: 0
+                }, {
+                    q: "How to make text bold using CSS?",
+                    options: ["font-weight:bold", "font:bold", "text-weight:bold", "fontstyle:bold"],
+                    answer: 0
+                }, {
+                    q: "Which property adds space inside an element?",
+                    options: ["padding", "margin", "gap", "border"],
+                    answer: 0
+                }, {
+                    q: "Which CSS unit is relative to the root font-size?",
+                    options: ["rem", "em", "px", "pt"],
+                    answer: 0
+                }, {
+                    q: "Which rule is used for responsive breakpoints?",
+                    options: ["@media", "@responsive", "@break", "@screen"],
+                    answer: 0
+                });
+            } else if (course === "JAVASCRIPT") {
+                list.push({
+                        q: "Which method logs to the console?",
+                        options: ["console.log()", "print()", "echo()", "show()"],
+                        answer: 0
+                    }, {
+                        q: "How to write a single line comment?",
+                        options: ["// comment", "/* comment */", "<!-- comment -->", "# comment"],
+                        answer: 0
+                    }, {
+                        q: "Which keyword declares a block-scoped variable?",
+                        options: ["let", "var", "const", "define"],
+                        answer: 1
+                    }, // var is function-scoped but included to vary
+                    {
+                        q: "Which array method adds to the end?",
+                        options: ["push()", "pop()", "shift()", "unshift()"],
+                        answer: 0
+                    }, {
+                        q: "How to convert string '5' to number?",
+                        options: ["Number('5')", "parseInt('5')", "+'5'", "All of the above"],
+                        answer: 3
+                    }, {
+                        q: "Which returns the type of a value?",
+                        options: ["typeof", "typeOf", "getType", "valueType"],
+                        answer: 0
+                    }, {
+                        q: "Promise is used for?",
+                        options: ["Asynchronous operations", "Styling", "HTML markup", "Database"],
+                        answer: 0
+                    }, {
+                        q: "Which event listens for clicks?",
+                        options: ["click", "onClick", "onclick", "All can be used"],
+                        answer: 3
+                    }
+                );
+            } else if (course === "SQL") {
+                list.push({
+                    q: "Which statement retrieves data from a table?",
+                    options: ["SELECT", "GET", "OPEN", "FETCH"],
+                    answer: 0
+                }, {
+                    q: "Which clause filters rows?",
+                    options: ["WHERE", "HAVING", "GROUP BY", "ORDER BY"],
+                    answer: 0
+                }, {
+                    q: "Which command removes a table?",
+                    options: ["DROP TABLE", "DELETE TABLE", "REMOVE TABLE", "TRUNCATE TABLE"],
+                    answer: 0
+                }, {
+                    q: "Which is used to sort results?",
+                    options: ["ORDER BY", "SORT BY", "GROUP BY", "FILTER BY"],
+                    answer: 0
+                }, {
+                    q: "Which aggregates values?",
+                    options: ["SUM", "COUNT", "AVG", "All of the above"],
+                    answer: 3
+                }, {
+                    q: "Which joins return matching rows only?",
+                    options: ["INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "FULL JOIN"],
+                    answer: 0
+                }, {
+                    q: "Primary key ensures?",
+                    options: ["Uniqueness", "Null values", "Multiple duplicates", "None"],
+                    answer: 0
+                }, {
+                    q: "Which clause groups rows?",
+                    options: ["GROUP BY", "ORDER BY", "WHERE", "HAVING"],
+                    answer: 0
+                });
+            } else if (course === "PYTHON") {
+                list.push({
+                    q: "How do you print in Python?",
+                    options: ["print()", "echo()", "console.log()", "printf()"],
+                    answer: 0
+                }, {
+                    q: "How to create a list?",
+                    options: ["[1,2,3]", "{1,2,3}", "(1,2,3)", "<1,2,3>"],
+                    answer: 0
+                }, {
+                    q: "How to define a function?",
+                    options: ["def func():", "function func()", "func def():", "create func()"],
+                    answer: 0
+                }, {
+                    q: "Which symbol starts a comment?",
+                    options: ["#", "//", "/*", "--"],
+                    answer: 0
+                }, {
+                    q: "How to open a file for reading?",
+                    options: ["open('file.txt','r')", "open('file.txt','w')", "read('file.txt')", "file.open('r')"],
+                    answer: 0
+                }, {
+                    q: "What is a dict?",
+                    options: ["Key-value mapping", "Ordered list", "Tuple", "Set"],
+                    answer: 0
+                }, {
+                    q: "Which is True in Python?",
+                    options: ["True", "true", "TRUE", "1"],
+                    answer: 0
+                }, {
+                    q: "What does len([1,2,3]) return?",
+                    options: ["3", "2", "1", "0"],
+                    answer: 0
+                });
+            } else if (course === "JAVA") {
+                list.push({
+                    q: "Which keyword creates a class in Java?",
+                    options: ["class", "Class", "struct", "define"],
+                    answer: 0
+                }, {
+                    q: "main method signature in Java is?",
+                    options: ["public static void main(String[] args)", "void main()", "public main()", "static void main()"],
+                    answer: 0
+                }, {
+                    q: "Which is used for inheritance?",
+                    options: ["extends", "implements", "inherits", "uses"],
+                    answer: 0
+                }, {
+                    q: "Which type is used for decimals?",
+                    options: ["double", "int", "floatish", "decimal"],
+                    answer: 0
+                }, {
+                    q: "Which is the superclass of all classes?",
+                    options: ["Object", "Base", "Root", "Top"],
+                    answer: 0
+                }, {
+                    q: "Which exception must be handled or declared?",
+                    options: ["Checked exception", "Runtime exception", "Error", "All"],
+                    answer: 0
+                }, {
+                    q: "Which keyword for interfaces?",
+                    options: ["interface", "implements", "extends", "contract"],
+                    answer: 0
+                }, {
+                    q: "What is JVM?",
+                    options: ["Java Virtual Machine", "Java Visual Machine", "Java Version Manager", "Just Virtual Machine"],
+                    answer: 0
+                });
+            } else if (course === "PHP") {
+                list.push({
+                    q: "Which symbol starts a PHP block?",
+                    options: ["<?php", "<php>", "<?", "%php"],
+                    answer: 0
+                }, {
+                    q: "How to echo in PHP?",
+                    options: ["echo 'hi';", "print 'hi';", "console.log('hi');", "printf('hi');"],
+                    answer: 0
+                }, {
+                    q: "PHP file extension is?",
+                    options: [".php", ".html", ".js", ".py"],
+                    answer: 0
+                }, {
+                    q: "Which superglobal holds POST data?",
+                    options: ["$_POST", "$_GET", "$_REQUEST", "$_DATA"],
+                    answer: 0
+                }, {
+                    q: "Concatenate in PHP uses which operator?",
+                    options: [".", "+", ".", "&"],
+                    answer: 0
+                }, {
+                    q: "Which function starts session?",
+                    options: ["session_start()", "start_session()", "begin_session()", "session()"],
+                    answer: 0
+                }, {
+                    q: "How to include a file?",
+                    options: ["include 'file.php';", "import 'file.php';", "require_file('file.php');", "use 'file.php';"],
+                    answer: 0
+                }, {
+                    q: "Which is used to connect MySQL (old)?",
+                    options: ["mysql_connect()", "mysqli_connect()", "pdo_connect()", "db_connect()"],
+                    answer: 0
+                });
+            } else if (course === "HOW TO") {
+                list.push({
+                    q: "What is the first step when learning a new topic?",
+                    options: ["Understand basics", "Skip to advanced", "Only practice", "Read summary"],
+                    answer: 0
+                }, {
+                    q: "How to remember facts better?",
+                    options: ["Active recall", "Passive reading", "Highlighting only", "Ignoring"],
+                    answer: 0
+                }, {
+                    q: "Best approach to solve problems?",
+                    options: ["Break into smaller pieces", "Do all at once", "Guess answers", "Avoid practice"],
+                    answer: 0
+                }, {
+                    q: "How to take notes effectively?",
+                    options: ["Write concise bullets", "Copy verbatim", "Underline everything", "Take no notes"],
+                    answer: 0
+                }, {
+                    q: "How to manage time?",
+                    options: ["Pomodoro technique", "Multitask constantly", "Procrastinate", "Do nothing"],
+                    answer: 0
+                }, {
+                    q: "How to practice coding?",
+                    options: ["Build projects", "Only read theory", "Watch without doing", "Avoid challenges"],
+                    answer: 0
+                }, {
+                    q: "Best way to ask for help?",
+                    options: ["Be specific with code and error", "Say 'it doesn't work'", "Demand answers", "Ignore mentors"],
+                    answer: 0
+                }, {
+                    q: "How to prepare for interviews?",
+                    options: ["Mock interviews + practice", "Only watch videos", "Only memorize answers", "Ignore preparation"],
+                    answer: 0
+                });
+            } else if (course === "W3.CSS") {
+                list.push({
+                    q: "W3.CSS is primarily used for?",
+                    options: ["Styling webpages", "Database", "Backend APIs", "Image editing"],
+                    answer: 0
+                }, {
+                    q: "Which class creates a card in W3.CSS?",
+                    options: ["w3-card", "w3-container", "w3-panel", "w3-box"],
+                    answer: 0
+                }, {
+                    q: "How to make responsive layout in W3.CSS?",
+                    options: ["w3-row and w3-col", "flexbox only", "grid only", "tables"],
+                    answer: 0
+                }, {
+                    q: "W3.CSS is developed by?",
+                    options: ["W3Schools", "Mozilla", "Google", "Microsoft"],
+                    answer: 0
+                }, {
+                    q: "Which class adds padding in W3.CSS?",
+                    options: ["w3-padding", "w3-margin", "w3-space", "w3-gap"],
+                    answer: 0
+                }, {
+                    q: "Which class sets a theme color?",
+                    options: ["w3-blue", "w3-theme", "w3-color", "w3-primary"],
+                    answer: 0
+                }, {
+                    q: "W3.CSS file extension is?",
+                    options: [".css", ".w3", ".wc", ".style"],
+                    answer: 0
+                }, {
+                    q: "W3.CSS helper classes reduce need for?",
+                    options: ["Custom CSS", "HTML", "JavaScript", "Server code"],
+                    answer: 0
+                });
+            } else if (course === "C") {
+                list.push({
+                    q: "Which function is used for output in C?",
+                    options: ["printf()", "cout<<", "print()", "echo()"],
+                    answer: 0
+                }, {
+                    q: "Which header contains printf?",
+                    options: ["stdio.h", "iostream", "conio.h", "stdlib.h"],
+                    answer: 0
+                }, {
+                    q: "Which loop is guaranteed to run at least once?",
+                    options: ["do-while", "for", "while", "none"],
+                    answer: 0
+                }, {
+                    q: "Which operator gives remainder?",
+                    options: ["%", "/", "*", "&"],
+                    answer: 0
+                }, {
+                    q: "What is the size of int typically?",
+                    options: ["4 bytes (platform dependent)", "1 byte", "8 bytes", "2 bytes"],
+                    answer: 0
+                }, {
+                    q: "Which is used for dynamic memory allocation?",
+                    options: ["malloc()", "alloc()", "new", "create"],
+                    answer: 0
+                }, {
+                    q: "How to comment single line in C?",
+                    options: ["// comment", "/* comment */", "# comment", "; comment"],
+                    answer: 0
+                }, {
+                    q: "Which function ends program?",
+                    options: ["exit()", "end()", "stop()", "quit()"],
+                    answer: 0
+                });
+            } else if (course === "C++") {
+                list.push({
+                    q: "Which header for cout?",
+                    options: ["iostream", "stdio.h", "conio.h", "iostream.h"],
+                    answer: 0
+                }, {
+                    q: "C++ supports which paradigm?",
+                    options: ["Object Oriented", "Functional only", "Procedural only", "None"],
+                    answer: 0
+                }, {
+                    q: "How to define a class?",
+                    options: ["class MyClass { }", "def class MyClass", "struct MyClass()", "create class MyClass"],
+                    answer: 0
+                }, {
+                    q: "Which operator is used for scope resolution?",
+                    options: ["::", "->", ":", ". "],
+                    answer: 0
+                }, {
+                    q: "Which allocates memory in C++?",
+                    options: ["new", "malloc", "alloc", "create"],
+                    answer: 0
+                }, {
+                    q: "Which is destructor notation?",
+                    options: ["~ClassName()", "ClassName~()", "destroy()", "del()"],
+                    answer: 0
+                }, {
+                    q: "Which template supports generic programming?",
+                    options: ["template", "generic", "typeparam", "typeparam"],
+                    answer: 0
+                }, {
+                    q: "Which container is dynamic array?",
+                    options: ["vector", "array", "list", "deque"],
+                    answer: 0
+                });
+            } else if (course === "C#") {
+                list.push({
+                    q: "C# is primarily developed by?",
+                    options: ["Microsoft", "Oracle", "Apple", "Google"],
+                    answer: 0
+                }, {
+                    q: "Entry point in C# program is?",
+                    options: ["static void Main(string[] args)", "main()", "int main()", "public static main()"],
+                    answer: 0
+                }, {
+                    q: "Which runs on .NET?",
+                    options: ["C#", "C", "C++", "JavaScript"],
+                    answer: 0
+                }, {
+                    q: "Which keyword for inheritance?",
+                    options: [" : ", "extends", "inherits", "implements"],
+                    answer: 0
+                }, {
+                    q: "Which type is for strings?",
+                    options: ["string", "String", "char[]", "Str"],
+                    answer: 0
+                }, {
+                    q: "What is Garbage Collector responsible for?",
+                    options: ["Memory management", "Compilation", "Execution", "Linking"],
+                    answer: 0
+                }, {
+                    q: "Which access modifier is accessible everywhere?",
+                    options: ["public", "private", "protected", "internal"],
+                    answer: 0
+                }, {
+                    q: "Which handles exceptions?",
+                    options: ["try-catch", "catch-only", "handle", "except"],
+                    answer: 0
+                });
+            } else if (course === "BOOTSTRAP") {
+                list.push({
+                    q: "Bootstrap is used for?",
+                    options: ["Responsive UI", "Backend APIs", "Database", "Server"],
+                    answer: 0
+                }, {
+                    q: "Which class creates a responsive grid column?",
+                    options: ["col-md-6", "col6", "column-6", "grid-6"],
+                    answer: 0
+                }, {
+                    q: "Bootstrap latest uses which CSS framework?",
+                    options: ["Flexbox", "Floats", "Tables", "Frames"],
+                    answer: 0
+                }, {
+                    q: "Which file is essential for Bootstrap CSS?",
+                    options: ["bootstrap.min.css", "bootstrap.js", "index.css", "style.css"],
+                    answer: 0
+                }, {
+                    q: "Which class styles buttons?",
+                    options: ["btn", "button", "btn-style", "bttn"],
+                    answer: 0
+                }, {
+                    q: "Which utility class adds margin?",
+                    options: ["m-2", "margin-2", "mg-2", "mar-2"],
+                    answer: 0
+                }, {
+                    q: "Which grid class is for small devices?",
+                    options: ["col-sm-", "col-xs-", "col-lg-", "col-md-"],
+                    answer: 0
+                }, {
+                    q: "Bootstrap uses which javascript plugin library optionally?",
+                    options: ["Popper.js", "jQuery", "React", "Angular"],
+                    answer: 0
+                });
+            } else if (course === "REACT") {
+                list.push({
+                    q: "React is a library for?",
+                    options: ["Building UIs", "Databases", "Styling", "Servers"],
+                    answer: 0
+                }, {
+                    q: "Component can be which types?",
+                    options: ["Function and Class", "Only Class", "Only Function", "Only Objects"],
+                    answer: 0
+                }, {
+                    q: "JSX stands for?",
+                    options: ["JavaScript XML", "JavaScript eXtended", "JS eXtension", "Java Syntax eXtended"],
+                    answer: 0
+                }, {
+                    q: "State in React belongs to?",
+                    options: ["Component", "DOM", "Server", "CSS"],
+                    answer: 0
+                }, {
+                    q: "UseEffect is used for?",
+                    options: ["Side effects", "Styling", "Routing", "Forms"],
+                    answer: 0
+                }, {
+                    q: "Props are?",
+                    options: ["Read-only inputs", "Mutable variables", "CSS classes", "DOM nodes"],
+                    answer: 0
+                }, {
+                    q: "Keys help in?",
+                    options: ["Efficient list rendering", "Styling lists", "Sorting lists", "Filtering lists"],
+                    answer: 0
+                }, {
+                    q: "Which hook provides state in function components?",
+                    options: ["useState", "useEffect", "useRef", "useMemo"],
+                    answer: 0
+                });
+            } else if (course === "MYSQL") {
+                list.push({
+                    q: "Which command creates a database?",
+                    options: ["CREATE DATABASE", "NEW DATABASE", "BUILD DATABASE", "MAKE DATABASE"],
+                    answer: 0
+                }, {
+                    q: "Which stores rows in a table?",
+                    options: ["INSERT INTO", "ADD ROW", "CREATE ROW", "PUT INTO"],
+                    answer: 0
+                }, {
+                    q: "Which retrieves unique values?",
+                    options: ["DISTINCT", "UNIQUE", "ONLY", "SINGLE"],
+                    answer: 0
+                }, {
+                    q: "Which limits number of results?",
+                    options: ["LIMIT", "TOP", "FETCH", "ROWNUM"],
+                    answer: 0
+                }, {
+                    q: "Which index improves search speed?",
+                    options: ["INDEX", "KEY", "SPEED", "LOOKUP"],
+                    answer: 0
+                }, {
+                    q: "Which command modifies table structure?",
+                    options: ["ALTER TABLE", "UPDATE TABLE", "MODIFY TABLE", "CHANGE TABLE"],
+                    answer: 0
+                }, {
+                    q: "Which stores current timestamp?",
+                    options: ["CURRENT_TIMESTAMP", "NOW()", "TIMESTAMP", "TIME()"],
+                    answer: 0
+                }, {
+                    q: "Which joins include all rows?",
+                    options: ["FULL OUTER JOIN", "INNER JOIN", "LEFT JOIN", "RIGHT JOIN"],
+                    answer: 0
+                });
+            } else if (course === "JQUERY") {
+                list.push({
+                    q: "jQuery is a library for?",
+                    options: ["DOM manipulation", "Server side", "CSS", "Database"],
+                    answer: 0
+                }, {
+                    q: "How to select elements in jQuery?",
+                    options: ["$('selector')", "get('selector')", "query('selector')", "select('selector')"],
+                    answer: 0
+                }, {
+                    q: "Which runs after document loads?",
+                    options: ["$(document).ready()", "window.onload", "init()", "start()"],
+                    answer: 0
+                }, {
+                    q: "How to hide an element?",
+                    options: ["$(elem).hide()", "$(elem).hidden=true", "display:none", "style.hide()"],
+                    answer: 0
+                }, {
+                    q: "How to attach event handler?",
+                    options: ["on('click', handler)", "click(handler)", "addEvent('click',handler)", "bind('click',handler)"],
+                    answer: 0
+                }, {
+                    q: "How to fetch data via AJAX?",
+                    options: ["$.ajax()", "fetch()", "axios()", "http.get()"],
+                    answer: 0
+                }, {
+                    q: "Which returns the text content?",
+                    options: [".text()", ".html()", ".val()", ".content()"],
+                    answer: 0
+                }, {
+                    q: "Which shorthand for $(document).ready()?",
+                    options: ["$(fn)", "$().ready", "$(document).on", "ready()"],
+                    answer: 0
+                });
+            } else if (course === "EXCEL") {
+                list.push({
+                    q: "Which function sums a range?",
+                    options: ["SUM()", "ADD()", "TOTAL()", "SUMRANGE()"],
+                    answer: 0
+                }, {
+                    q: "Which symbol starts a formula?",
+                    options: ["=", "+", "?", "#"],
+                    answer: 0
+                }, {
+                    q: "Which function gives average?",
+                    options: ["AVERAGE()", "MEAN()", "AVG()", "MID()"],
+                    answer: 0
+                }, {
+                    q: "Shortcut to auto-fit column width?",
+                    options: ["Double-click column border", "Ctrl+W", "Alt+F", "Double-click row border"],
+                    answer: 0
+                }, {
+                    q: "Which feature creates charts?",
+                    options: ["Insert > Chart", "Data > Chart", "Format > Chart", "View > Chart"],
+                    answer: 0
+                }, {
+                    q: "Which function finds max?",
+                    options: ["MAX()", "BIGGEST()", "TOP()", "HIGHEST()"],
+                    answer: 0
+                }, {
+                    q: "How to freeze top row?",
+                    options: ["View > Freeze Panes > Freeze Top Row", "Format > Freeze", "Home > Freeze", "Data > Freeze"],
+                    answer: 0
+                }, {
+                    q: "Which function counts non-empty cells?",
+                    options: ["COUNTA()", "COUNT()", "COUNTBLANK()", "COUNTIF()"],
+                    answer: 0
+                });
+            }
+
+            // Fill to 20 if less
+            if (list.length < 20) {
+                const placeholders = generatePlaceholderQuestions(course);
+                const need = 20 - list.length;
+                for (let i = 0; i < need; i++) list.push(placeholders[i]);
+            }
+            return list;
+        }
+
+        // ---------- Build courses object ----------
+        const courses = {};
+        COURSE_NAMES.forEach(name => {
+            courses[name.toLowerCase()] = {
+                name,
+                questions: makeCourseQuestions(name)
+            };
+        });
+
+        // ---------- UI references ----------
+        const courseSelect = document.getElementById('course-select');
+        const startBtn = document.getElementById('start-btn');
+        const shuffleBtn = document.getElementById('shuffle-btn');
+        const timeBtn = document.getElementById('time-btn');
+        const courseTitle = document.getElementById('course-title');
+        const quizSection = document.getElementById('quiz-section');
+        const courseSection = document.getElementById('course-section');
+        const resultSection = document.getElementById('result-section');
+        const questionText = document.getElementById('question-text');
+        const optionsBox = document.getElementById('options');
+        const nextBtn = document.getElementById('next-btn');
+        const timerDisplay = document.getElementById('time');
+        const resultText = document.getElementById('result-text');
+        const restartBtn = document.getElementById('restart-btn');
+        const quitBtn = document.getElementById('quit-btn');
+        const reviewBtn = document.getElementById('review-btn');
+        const reviewArea = document.getElementById('review-area');
+
+        // populate select
+        Object.keys(courses).forEach(key => {
+            const opt = document.createElement('option');
+            opt.value = key;
+            opt.textContent = courses[key].name;
+            courseSelect.appendChild(opt);
+        });
+
+        // ---------- State ----------
+        let currentCourse = null,
+            questions = [],
+            currentIndex = 0,
+            score = 0,
+            time = DEFAULT_TIME,
+            timer = null,
+            userAnswers = [];
+
+        let currentShuffledOptions = [];
+        let currentCorrectIndexInShuffled = 0;
+
+        // ---------- Events ----------
+        startBtn.onclick = startQuiz;
+        shuffleBtn.onclick = () => {
+            const val = courseSelect.value;
+            if (!val) return alert("Please select a course first.");
+            courses[val].questions = shuffleArray(courses[val].questions.slice());
+            alert("Questions shuffled for " + courses[val].name);
+        };
+        timeBtn.onclick = () => {
+            if (DEFAULT_TIME === 60) DEFAULT_TIME = 120;
+            else if (DEFAULT_TIME === 120) DEFAULT_TIME = 30;
+            else DEFAULT_TIME = 60;
+            timeBtn.textContent = `Toggle Timer (${DEFAULT_TIME}s)`;
+            timerDisplay.textContent = DEFAULT_TIME;
+            alert("Default timer changed to: " + DEFAULT_TIME + "s");
+        };
+        nextBtn.onclick = showNextQuestion;
+        restartBtn.onclick = restartQuiz;
+        quitBtn.onclick = () => {
+            if (confirm("Do you want to quit the quiz?")) {
+                clearInterval(timer);
+                quizSection.classList.add('hidden');
+                courseSection.classList.remove('hidden');
+            }
+        };
+        reviewBtn.onclick = () => {
+            reviewArea.classList.toggle('hidden');
+            if (!reviewArea.classList.contains('hidden')) renderReview();
+        };
+
+        // ---------- Core ----------
+        function startQuiz() {
+            const sel = courseSelect.value;
+            if (!sel) return alert("Select a course first!");
+            currentCourse = courses[sel];
+            questions = currentCourse.questions.slice();
+            questions = shuffleArray(questions);
+            courseTitle.textContent = currentCourse.name + " Quiz";
+            courseSection.classList.add('hidden');
+            quizSection.classList.remove('hidden');
+
+            time = DEFAULT_TIME;
+            timerDisplay.textContent = time;
+            score = 0;
+            currentIndex = 0;
+            userAnswers = [];
+            startTimer();
+            displayQuestion();
+        }
+
+        function startTimer() {
+            clearInterval(timer);
+            timer = setInterval(() => {
+                time--;
+                timerDisplay.textContent = time;
+                if (time <= 0) endQuiz();
+            }, 1000);
+        }
+
+        function prepareShuffledOptions(question) {
+            const arr = question.options.map((t, i) => ({
+                text: t,
+                originalIndex: i
+            }));
+            shuffleArray(arr);
+            const correctOriginal = question.answer;
+            const correctInShuffled = arr.findIndex(x => x.originalIndex === correctOriginal);
+            return {
+                shuffled: arr,
+                correctIndex: correctInShuffled
+            };
+        }
+
+        function displayQuestion() {
+            nextBtn.classList.add('hidden');
+            optionsBox.innerHTML = '';
+            const q = questions[currentIndex];
+            const info = prepareShuffledOptions(q);
+            currentShuffledOptions = info.shuffled;
+            currentCorrectIndexInShuffled = info.correctIndex;
+
+            questionText.textContent = `${currentIndex + 1}. ${q.q}`;
+
+            const labels = ['A', 'B', 'C', 'D', 'E', 'F'];
+            currentShuffledOptions.forEach((optObj, idx) => {
+                const btn = document.createElement('button');
+                const lbl = document.createElement('span');
+                lbl.className = 'opt-label';
+                lbl.textContent = labels[idx] ? labels[idx] + '.' : (idx + 1) + '.';
+                const txt = document.createElement('span');
+                txt.textContent = optObj.text;
+                btn.appendChild(lbl);
+                btn.appendChild(txt);
+                btn.dataset.shuffledIndex = idx;
+                btn.onclick = () => checkAnswer(parseInt(btn.dataset.shuffledIndex, 10), btn);
+                optionsBox.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selectedShuffledIndex, button) {
+            const btns = Array.from(optionsBox.querySelectorAll('button'));
+            btns.forEach(b => b.disabled = true);
+
+            const isCorrect = selectedShuffledIndex === currentCorrectIndexInShuffled;
+            if (isCorrect) {
+                button.classList.add('correct');
+                score++;
+            } else {
+                button.classList.add('wrong');
+                const correctBtn = btns.find(b => parseInt(b.dataset.shuffledIndex, 10) === currentCorrectIndexInShuffled);
+                if (correctBtn) correctBtn.classList.add('correct');
+            }
+
+            // Save for review (guard for safety)
+            const selText = (currentShuffledOptions[selectedShuffledIndex] && currentShuffledOptions[selectedShuffledIndex].text) ? currentShuffledOptions[selectedShuffledIndex].text : null;
+            const corText = (currentShuffledOptions[currentCorrectIndexInShuffled] && currentShuffledOptions[currentCorrectIndexInShuffled].text) ? currentShuffledOptions[currentCorrectIndexInShuffled].text : null;
+
+            userAnswers.push({
+                qIndex: currentIndex,
+                question: questions[currentIndex].q,
+                selectedIndex: selectedShuffledIndex,
+                selectedText: selText,
+                correctIndex: currentCorrectIndexInShuffled,
+                correctText: corText
+            });
+
+            nextBtn.classList.remove('hidden');
+        }
+
+        function showNextQuestion() {
+            currentIndex++;
+            if (currentIndex < questions.length) displayQuestion();
+            else endQuiz();
+        }
+
+        function endQuiz() {
+            clearInterval(timer);
+            quizSection.classList.add('hidden');
+            resultSection.classList.remove('hidden');
+            resultText.textContent = `Your Score: ${score}/${questions.length}`;
+        }
+
+        function restartQuiz() {
+            resultSection.classList.add('hidden');
+            courseSection.classList.remove('hidden');
+            reviewArea.classList.add('hidden');
+            reviewArea.innerHTML = '';
+        }
+
+        function renderReview() {
+            if (!userAnswers.length) {
+                reviewArea.innerHTML = "<p>No answers found — please complete a quiz first.</p>";
+                return;
+            }
+            let html = '<ol>';
+            userAnswers.forEach(a => {
+                const correct = a.selectedIndex === a.correctIndex;
+                html += `<li style="margin-bottom:10px;">
+        <strong>${escapeHtml(a.question)}</strong><br>
+        Your answer: ${escapeHtml(a.selectedText || "No Answer")} ${correct ? '✅' : '❌'}<br>
+        Correct answer: ${escapeHtml(a.correctText || "N/A")}
+      </li>`;
+            });
+            html += '</ol>';
+            reviewArea.innerHTML = html;
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            return String(text).replace(/[&<>"']/g, m => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            }[m]));
+        }
+
+        // init: populate select
+        // (already done above, but we'll re-add to be safe)
+        (function init() {
+            const sel = document.getElementById('course-select');
+            sel.innerHTML = '<option value="">-- Choose a Course --</option>';
+            Object.keys(courses).forEach(k => {
+                const opt = document.createElement('option');
+                opt.value = k;
+                opt.textContent = courses[k].name;
+                sel.appendChild(opt);
+            });
+            timerDisplay.textContent = DEFAULT_TIME;
+        })();
+    </script>
+</body>
+
+</html>

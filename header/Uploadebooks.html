@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Books |LearnManch </title>
+    <link rel="stylesheet" href="Uploadebooks.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <h1>Upload & Library — LearnManch Books</h1>
+        <p class="subtitle">Upload your book (PDF/EPUB) and manage your library. Files are stored locally in your browser.</p>
+    </header>
+
+    <main class="container">
+        <section class="upload-panel">
+            <h2>Add a Book</h2>
+
+
+            <form id="bookForm" action="uploadBook.php" method="POST" enctype="multipart/form-data">
+                <div class="row">
+                    <label>Book Title</label>
+                    <input type="text" name="title" id="title" required>
+                </div>
+
+                <div class="row">
+                    <label>Author</label>
+                    <input type="text" name="author" id="author" required>
+                </div>
+
+                <div class="row">
+                    <label>Category</label>
+                    <select name="category" id="category">
+            <option value="General">General</option>
+            <option value="Programming">Programming</option>
+            <option value="Math">Math</option>
+            <option value="Science">Science</option>
+            <option value="Language">Language</option>
+        </select>
+                </div>
+
+                <div class="row">
+                    <label>Choose Book File (PDF / EPUB)</label>
+                    <input type="file" name="bookFile" id="fileInput" accept=".pdf,.epub,.txt" required>
+                </div>
+
+                <div class="row actions">
+                    <button type="submit" class="btn primary">Upload Book</button>
+                </div>
+            </form>
+
+
+        </section>
+
+        <section class="library-panel">
+            <div class="library-header">
+                <h2>Your Library</h2>
+                <div class="controls">
+                    <input type="text" id="searchBox" placeholder="Search by title or author...">
+                    <select id="filterCategory">
+            <option value="all">All Categories</option>
+            <option value="Programming">Programming</option>
+            <option value="Math">Math</option>
+            <option value="Science">Science</option>
+            <option value="Language">Language</option>
+            <option value="General">General</option>
+          </select>
+                </div>
+            </div>
+
+            <div id="booksList" class="books-grid">
+                <!-- Book cards will be rendered here -->
+            </div>
+        </section>
+    </main>
+    <footer class="site-footer">
+        <p>© 2025 LearnManch | Designed mr Ramkesh RS ❤️ for learners.</p>
+    </footer>
+
+    <script src="Uploadebooks.js"></script>
+</body>
+
+</html>

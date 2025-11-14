@@ -1,0 +1,469 @@
+<!-- Save as courses.html -->
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Courses | LearnManch</title>
+
+    <style>
+        /* ---------- Global ---------- */
+        
+         :root {
+            --bg: #001f3f;
+            --panel: #002b5c;
+            --accent: #0abaff;
+            --muted: #b0d8ff;
+            --card: #002b5c;
+        }
+        
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            font-family: "Poppins", system-ui, sans-serif;
+            background: var(--bg);
+            color: #fff;
+        }
+        
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+        /* ---------- Header ---------- */
+        
+        .site-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            background: var(--panel);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .brand {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+        
+        .brand h1 {
+            font-size: 1.25rem;
+            margin: 0
+        }
+        
+        .brand p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--muted)
+        }
+        /* ---------- Menu (three dots) ---------- */
+        
+        .menu-wrap {
+            position: relative;
+        }
+        
+        .menu-btn {
+            font-size: 1.35rem;
+            padding: 0.35rem 0.6rem;
+            border-radius: 8px;
+            cursor: pointer;
+            user-select: none;
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .menu-btn:focus {
+            outline: 3px solid rgba(10, 186, 255, 0.18)
+        }
+        
+        .dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: calc(100% + 0.4rem);
+            background: #23232b;
+            color: #eee;
+            border-radius: 8px;
+            padding: 0.25rem 0;
+            min-width: 200px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            z-index: 200;
+        }
+        
+        .dropdown.open {
+            display: block
+        }
+        
+        .dropdown li {
+            list-style: none;
+            padding: 0.6rem 0.9rem;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: background 0.12s
+        }
+        
+        .dropdown li:hover {
+            background: #2b2b33
+        }
+        
+        .dropdown li a {
+            display: flex;
+            gap: 0.6rem;
+            align-items: center;
+            color: inherit
+        }
+        /* ---------- Filter Bar ---------- */
+        
+        .filter-bar {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            justify-content: center;
+            padding: 1.4rem 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-bar input,
+        .filter-bar select {
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: none;
+            font-size: 1rem;
+            width: 260px;
+            background: #013a7a;
+            color: #fff;
+        }
+        
+        .filter-bar input::placeholder {
+            color: #ccc
+        }
+        
+        .filter-bar input:focus,
+        .filter-bar select:focus {
+            background: #024a9b;
+            box-shadow: 0 0 10px rgba(10, 186, 255, 0.12);
+            outline: none
+        }
+        /* ---------- Courses grid ---------- */
+        
+        main {
+            padding: 16px 20px 48px
+        }
+        
+        .course-list {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .course-card {
+            background: var(--card);
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+            transition: transform 0.22s, box-shadow 0.22s;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.52)
+        }
+        
+        .course-card h3 {
+            margin: 0 0 8px;
+            color: var(--accent)
+        }
+        
+        .course-card p {
+            margin: 0 0 16px;
+            color: #dfefff;
+            font-size: 0.95rem
+        }
+        
+        .course-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center
+        }
+        
+        .enroll-btn {
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            padding: 9px 14px;
+            border-radius: 9px;
+            font-weight: 600;
+            cursor: pointer
+        }
+        
+        .details-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 8px 12px;
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer
+        }
+        /* ---------- Footer ---------- */
+        
+        footer {
+            padding: 18px;
+            text-align: center;
+            background: var(--panel);
+            color: var(--muted);
+            font-size: 0.92rem;
+            border-top: 1px solid rgba(0, 64, 128, 0.12);
+            margin-top: 28px
+        }
+        /* ---------- Responsive tweaks ---------- */
+        
+        @media (max-width:520px) {
+            .filter-bar input,
+            .filter-bar select {
+                width: 100%
+            }
+            .brand h1 {
+                font-size: 1rem
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="site-header" role="banner">
+        <div class="brand">
+            <h1>Our Courses</h1>
+            <p class="subtitle">Explore a variety of subjects and start learning today!</p>
+        </div>
+
+        <!-- Three-dots menu (placed top-right) -->
+        <div class="menu-wrap" id="menuWrap">
+            <button class="menu-btn" id="menuBtn" aria-haspopup="true" aria-expanded="false" aria-controls="mainMenu" title="Open menu">
+        ☰ <span class="sr-only"></span>
+      </button>
+
+            <ul class="dropdown" id="mainMenu" role="menu" aria-label="Main menu">
+                <li role="none"><a role="menuitem" href="bootstrap-tutorial-responsive.html">BOOTSTRAP</a></li>
+                <li role="none"><a role="menuitem" href="c-tutorial-responsive.html">C-TUTORIAL</a></li>
+                <li role="none"><a role="menuitem" href="cpp-tutorial-responsive.html">C++</a></li>
+                <li role="none"><a role="menuitem" href="Css.html">CSS </a></li>
+                <li role="none"><a role="menuitem" href="excel-tutorial-responsive.html">EXCEL</a></li>
+                <li role="none"><a role="menuitem" href="howto-tutorial-responsive.html">HOWTO_TUTORIAL</a></li>
+                <li role="none"><a role="menuitem" href="Html.html">HTML</a></li>
+                <li role="none"><a role="menuitem" href="Java script.html">JAVA SCRIPT</a></li>
+                <li role="none"><a role="menuitem" href="java-tutorial-responsive.html">JAVA-TUTORIAL</a></li>
+                <li role="none"><a role="menuitem" href="jquery-tutorial-responsive.html">JQUIERY</a></li>
+                <li role="none"><a role="menuitem" href="mysql-tutorial-responsive.html">MYSQL</a></li>
+                <li role="none"><a role="menuitem" href="php-tutorial-responsive.html">PHP</a></li>
+                <li role="none"><a role="menuitem" href="python.html">Python</a></li>
+
+                <li role="none"><a role="menuitem" href="react-tutorial-responsive.html">React</a></li>
+                <li role="none"><a role="menuitem" href="Sql.html"> SQL</a></li>
+
+            </ul>
+        </div>
+    </header>
+
+    <!-- Filter/search -->
+    <div class="filter-bar" role="region" aria-label="Course filters">
+        <input id="searchBox" type="search" placeholder="Search courses..." aria-label="Search courses">
+        <select id="categoryFilter" aria-label="Filter by category">
+      <option value="all">All Categories</option>
+      <option value="programming">Programming</option>
+      <option value="science">Science</option>
+      <option value="math">Math</option>
+      <option value="language">Language</option>
+    </select>
+    </div>
+
+    <main>
+        <section class="course-list" id="courseList" aria-live="polite">
+            <!-- dynamically filled -->
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 LearnManch | Designed by Mr. Ramkesh RS ❤️ for learners.</p>
+    </footer>
+
+    <script>
+        /* ---------- Data (duplicates removed automatically by title) ---------- */
+        const rawCourses = [{
+                title: "Web Development Bootcamp",
+                category: "programming",
+                desc: "Learn HTML, CSS, JavaScript, and build real projects."
+            }, {
+                title: "Advanced Mathematics",
+                category: "math",
+                desc: "Master algebra, calculus, and geometry with practice sessions."
+            }, {
+                title: "Basic Science Concepts",
+                category: "science",
+                desc: "Understand core physics, chemistry, and biology fundamentals."
+            }, {
+                title: "Spoken English Mastery",
+                category: "language",
+                desc: "Improve your English speaking and communication skills."
+            }, {
+                title: "Python Programming",
+                category: "programming",
+                desc: "A beginner-friendly course to learn Python and its uses."
+            },
+
+            // Example duplicate entry (commented) to show dedupe would work:
+            // { title: "Python Programming", category: "programming", desc: "Duplicate example will be removed." }
+        ];
+
+        // Remove duplicate courses by title (keeps first occurrence)
+        const seen = new Set();
+        const courses = rawCourses.filter(c => {
+            const key = (c.title || "").trim().toLowerCase();
+            if (!key) return false;
+            if (seen.has(key)) return false;
+            seen.add(key);
+            return true;
+        });
+
+        /* ---------- DOM refs ---------- */
+        const courseList = document.getElementById('courseList');
+        const searchBox = document.getElementById('searchBox');
+        const categoryFilter = document.getElementById('categoryFilter');
+
+        /* ---------- Render function ---------- */
+        function renderCourses(filterText = '', category = 'all') {
+            courseList.innerHTML = '';
+            const ft = (filterText || '').trim().toLowerCase();
+
+            const filtered = courses.filter(course => {
+                const matchesText = course.title.toLowerCase().includes(ft) || (course.desc || '').toLowerCase().includes(ft);
+                const matchesCategory = (category === 'all') || course.category === category;
+                return matchesText && matchesCategory;
+            });
+
+            if (filtered.length === 0) {
+                const p = document.createElement('p');
+                p.style.gridColumn = '1/-1';
+                p.style.textAlign = 'center';
+                p.textContent = 'No courses found.';
+                courseList.appendChild(p);
+                return;
+            }
+
+            filtered.forEach(course => {
+                const card = document.createElement('article');
+                card.className = 'course-card';
+                card.innerHTML = `
+          <h3>${escapeHtml(course.title)}</h3>
+          <p>${escapeHtml(course.desc)}</p>
+          <div class="course-actions">
+            <button class="enroll-btn">Enroll Now</button>
+            <button class="details-btn" aria-label="Details for ${escapeHtml(course.title)}">View Details</button>
+          </div>
+        `;
+                // Add event listeners
+                const enrollBtn = card.querySelector('.enroll-btn');
+                enrollBtn.addEventListener('click', () => {
+                    // Simple behavior — replace with real enrollment flow
+                    alert('You clicked Enroll for: ' + course.title);
+                });
+
+                const detailsBtn = card.querySelector('.details-btn');
+                detailsBtn.addEventListener('click', () => {
+                    alert('Course details:\\n' + course.title + '\\n\\n' + course.desc);
+                });
+
+                courseList.appendChild(card);
+            });
+        }
+
+        /* ---------- Helpers ---------- */
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>"']/g, function(m) {
+                return {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#39;'
+                }[m];
+            });
+        }
+
+        /* ---------- Event listeners (search + filter) ---------- */
+        // simple debounce to improve typing experience
+        let debounceTimer = null;
+        searchBox.addEventListener('input', (e) => {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                renderCourses(e.target.value, categoryFilter.value);
+            }, 160);
+        });
+
+        categoryFilter.addEventListener('change', (e) => {
+            renderCourses(searchBox.value, e.target.value);
+        });
+
+        /* ---------- Menu (three-dot) behavior ---------- */
+        const menuBtn = document.getElementById('menuBtn');
+        const mainMenu = document.getElementById('mainMenu');
+        const menuWrap = document.getElementById('menuWrap');
+
+        function closeMenu() {
+            mainMenu.classList.remove('open');
+            menuBtn.setAttribute('aria-expanded', 'false');
+        }
+
+        function openMenu() {
+            mainMenu.classList.add('open');
+            menuBtn.setAttribute('aria-expanded', 'true');
+            // focus first item for keyboard users
+            const first = mainMenu.querySelector('a');
+            if (first) first.focus();
+        }
+
+        menuBtn.addEventListener('click', (ev) => {
+            ev.stopPropagation();
+            if (mainMenu.classList.contains('open')) closeMenu();
+            else openMenu();
+        });
+
+        // close on outside click
+        document.addEventListener('click', (e) => {
+            if (!menuWrap.contains(e.target)) closeMenu();
+        });
+
+        // keyboard: Escape to close, ArrowDown to open
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeMenu();
+            if ((e.key === 'ArrowDown' || e.key === 'Enter') && document.activeElement === menuBtn) {
+                e.preventDefault();
+                openMenu();
+            }
+        });
+
+        // close when menu item clicked
+        mainMenu.addEventListener('click', (e) => {
+            // let link navigation happen; close menu after a short delay
+            setTimeout(closeMenu, 120);
+        });
+
+        /* ---------- Initial render ---------- */
+        renderCourses();
+    </script>
+</body>
+
+</html>

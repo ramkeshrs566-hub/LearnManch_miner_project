@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Contact Us</title>
+</head>
+
+<body>
+    <header class="contact-header">
+        <h1>Contact Us</h1>
+        <h3>Welcome to LearnManch ! We’re delighted to connect with you."</h3>
+        <p class="subtitle">""Our team is here to support your learning journey — reach out anytime, we’d love to hear from you!"</p>
+    </header>
+
+
+    <section class="contact-section">
+        <div class="contact-info">
+            <h2>Get in Touch</h2>
+            <p><strong>Email:</strong>ramkeshrs566@gmail.com</p>
+            <p><strong>Phone:</strong> +91 8090778226</p>
+            <p><strong>Address:</strong> Noida Gaziabad, Delhi, India</p>
+            <div class="social-links">
+                <a href="https://facebook.com/share/1ErfW47g3N" class="social">facebook page 📘<button>click me</button></a> <br><br>
+                <a href="https://youtube.com/@ramkeshrs100k" class="social">youtube 🎥 <button>click me</button></a> <br><br>
+                <a href="https://www.linkedin.com/in/ramkesh-rs-2a028427b/" class="social">linkedin 💼 <button>click me</button></a> <br><br>
+                <a href="https://www.facebook.com/ramkesh.rs.54" class="social">facebook profile 📘 <button>click me</button></a> <br><br>
+                <a href="https://github.com/ramkeshrs566-hub" class="social">Github profile 💻 <button>click me</button></a>
+                <br><br>
+                <a href="https://youtube.com/@BusinessRS-3M" class="social">youtube 🎥 <button>click me</button></a>
+            </div>
+        </div>
+
+
+        <form class="contact-form" id="contactForm">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" placeholder="Enter your name" required>
+
+
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Enter your email" required>
+
+
+            <label for="message">Message</label>
+            <textarea id="message" rows="5" placeholder="Write your message here..." required></textarea>
+
+
+            <button type="submit">Send Message</button>
+            <p id="responseMsg"></p>
+        </form>
+    </section>
+
+
+    <footer class="contact-footer">
+        <p>© 2025 LearnManch | Designed mr Ramkesh RS ❤️ for learners.</p>
+    </footer>
+    <style>
+        body {
+            margin: none;
+            font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            background: linear-gradient(135deg, #021c36 0%, #001833 100%);
+            color: #e6f0f7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        .contact-info {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 24;
+            box-shadow: 0 4px 16px var(--shadow);
+        }
+        
+        .social-links {
+            margin-top: 12px;
+        }
+        
+        .social {
+            color: rgb(206, 200, 200);
+            text-decoration: none;
+            font-size: .9rem;
+            margin-right: 8px;
+        }
+        
+        .contact-form {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 16px var(--shadow);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .contact-form input,
+        .contact-form textarea {
+            padding: 10px 12px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        
+        .contact-form button {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .contact-form button:hover {
+            background: #005fd1;
+        }
+        
+        #responseMsg {
+            margin-top: 8px;
+            font-size: 0.9rem;
+            color: green;
+            font-weight: 500;
+        }
+        
+        .contact-footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+            background: var(--card);
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+    </style>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('message').value.trim();
+            const response = document.getElementById('responseMsg');
+
+
+            if (!name || !email || !message) {
+                response.textContent = '⚠️ Please fill in all fields.';
+                response.style.color = 'red';
+                return;
+            }
+
+
+            // Simple fake success message (you can replace with backend integration)
+            response.textContent = `✅ Thank you, ${name}! Your message has been sent successfully.`;
+            response.style.color = 'green';
+
+
+            // Clear fields
+            document.getElementById('contactForm').reset();
+        });
+    </script>
+</body>
+
+</html>

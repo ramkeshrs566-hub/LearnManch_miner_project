@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="ragisterTeacher.css">
+    <title>ragister for teacher</title>
+</head>
+
+<body>
+
+    <!-- Teacher Registration Section -->
+    <section class="teacher-register" id="teacher-register">
+        <div class="container">
+            <h2>Register as a Teacher</h2>
+            <p>Join LearnManch as an expert tutor and help students learn better!</p>
+
+            <form id="teacherForm" method="post" action="Teacher.php">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="subject">Subject Expertise</label>
+                    <input type="text" id="subject" name="subject" placeholder="e.g., Mathematics, Science, English" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="experience">Experience (in years)</label>
+                    <input type="number" id="experience" name="experience" placeholder="e.g., 3" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="about">About You</label>
+                    <textarea id="about" name="about" rows="4" placeholder="Write a short bio..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn">Register Now</button>
+            </form>
+
+        </div>
+    </section>
+
+    <div>
+        <p>© 2025 LearnManch | Designed mr Ramkesh RS ❤️ for learners.</p>
+    </div>
+
+    <script src="ragisterteacher.js"></script>
+</body>
+
+</html>

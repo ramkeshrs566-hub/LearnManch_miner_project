@@ -1,0 +1,269 @@
+<!-- Save as about.html -->
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>About Us</title>
+</head>
+
+<body>
+    <style>
+            /* Save as about.css */
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            background: linear-gradient(135deg, #021c36 0%, #001833 100%);
+            color: #e6f0f7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        .about-header {
+            text-align: center;
+            padding: 50px 20px;
+            background: linear-gradient(135deg, var(--accent), #4facfe);
+            color: white;
+        }
+        
+        .about-header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .tagline {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 40px 20px;
+        }
+        
+        .about-card {
+            background-color: var(--card);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 16px var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .about-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+        }
+        
+        .about-card h2 {
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+        
+        .about-footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+            background-color: var(--card);
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            color: #777;
+            style.textContent {
+                .about-card {
+                    opacity: 0;
+                    transform: translateY(30px);
+                    transition: opacity 0.6s ease, transform 0.6s ease;
+                }
+                .about-card.visible {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            .learnmanch-about {
+                background: linear-gradient(135deg, #021A35, #073A6D);
+                color: #fff;
+                padding: 60px 20px;
+                text-align: center;
+                font-family: 'Poppins', sans-serif;
+                border-radius: 20px;
+                box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+                margin: 40px auto;
+                max-width: 1000px;
+            }
+            .learnmanch-about h2 {
+                font-size: 2.4rem;
+                color: #00AEEF;
+                margin-bottom: 10px;
+            }
+            .learnmanch-about .tagline {
+                font-size: 1.2rem;
+                font-style: italic;
+                margin-bottom: 25px;
+                color: #CDE9FF;
+            }
+            .learnmanch-about p {
+                line-height: 1.8;
+                font-size: 1rem;
+                margin-bottom: 15px;
+            }
+            .learnmanch-about h3 {
+                margin-top: 30px;
+                font-size: 1.4rem;
+                color: #FFD700;
+            }
+            .learnmanch-about .quote {
+                font-style: italic;
+                background: rgba(255, 255, 255, 0.1);
+                padding: 15px 20px;
+                border-left: 5px solid #00AEEF;
+                margin: 30px 0;
+                border-radius: 8px;
+                color: #F8F9FA;
+            }
+            .learnmanch-about .closing {
+                font-weight: 500;
+                margin-top: 25px;
+            }
+            .btn-learn {
+                display: inline-block;
+                background: #00AEEF;
+                color: #fff;
+                padding: 12px 25px;
+                text-decoration: none;
+                border-radius: 8px;
+                margin-top: 20px;
+            }
+            .btn-learn:hover {
+                background: #0090CC;
+            }
+    </style>
+    <header class="about-header">
+        <h1>About Us</h1>
+        <p class="tagline">Learn more about our mission, team, and values</p>
+    </header>
+
+
+    <section class="about-content">
+        <div class="about-card" id="mission">
+            <h2>Our Mission</h2>
+            <p>At LearnManch , our mission is to empower every learner to achieve academic excellence and personal growth through quality education, innovation, and inspiration. We aim to make learning simple, engaging, and accessible for everyone, regardless
+                of background or ability. Our dedicated educators and creative team work together to build a supportive environment where students learn with confidence, think critically, and dream boldly. We believe that education is not just about marks
+                — it’s about building skills, values, and a lifelong love for learning. Through modern teaching methods, digital learning tools, and personalized guidance, we strive to shape bright minds and stronger futures. “Our mission is to make learning
+                better — one student, one lesson, one success at a time.”</p>
+        </div>
+
+
+        <div class="about-card" id="team">
+            <h2>Our Team</h2>
+            <p>At LearnManch , our team is built on passion, dedication, and a shared vision — to make learning simple, smart, and accessible for everyone. We believe that education is the key to unlocking potential, and every student deserves the best guidance
+                to achieve success. Our team of experienced teachers, creative developers, and supportive staff work together with one goal — to inspire learners and build their confidence. We don’t just teach — we motivate, guide, and empower students
+                to believe in themselves and reach greater heights. With discipline, teamwork, and innovation at our core, LearnManch continues to create a positive learning experience that transforms dreams into reality.</p>
+        </div>
+
+
+        <div class="about-card" id="values">
+            <h2>Our Values</h2>
+            <ul>
+
+                <li>1. Excellence: We strive for the highest st</li>
+                <li>2. Integrity: We believe in honesty, transparency, and doing the right thing, even when no one is watching.
+                </li>
+                <li>3. Innovation: We continuously improve and use creative methods to make learning engaging and effective.
+                    </i>
+
+                </li>
+                <li>4. Teamwork: Together, we achieve more. Collaboration and mutual respect are the foundation of our success.
+                </li>
+                <li>5. Commitment: We are dedicated to helping every learner reach their full potential with discipline and consistency.
+                </li>
+                <li>6. Motivation: We inspire students to stay confident, focused, and determined — because success begins with a positive mindset.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="learnmanch-about">
+        <div class="content">
+            <h2>LearnManch — Empowering Every Learner</h2>
+            <p class="tagline">The best AI-powered education platform designed for growth, creativity, and success.</p>
+
+            <p class="intro">
+                At <strong>LearnManch</strong>, we believe that every student deserves access to the right knowledge, tools, and motivation to build a brighter future. Our mission is to transform learning into an exciting journey — where curiosity meets
+                opportunity, and potential turns into achievement.
+            </p>
+
+            <h3>🎯 Our Vision</h3>
+            <p>
+                To create a world where education is not limited by boundaries, where learning becomes interactive, engaging, and accessible to everyone. We combine technology with creativity to make every concept easy to understand and enjoyable to explore.
+            </p>
+
+            <h3>💡 Our Mission</h3>
+            <p>
+                To provide students with modern digital tools, smart learning methods, and real-life applications that build confidence, inspire innovation, and develop a lifelong love for learning.
+            </p>
+
+            <h3>🚀 Motivation & Growth</h3>
+            <p>
+                Education is not just about grades — it’s about growing as a thinker, problem-solver, and creator. LearnManch helps students overcome challenges with motivation, personalized learning, and community support. Every click, every course, and every project
+                is a step towards your dreams.
+            </p>
+
+            <blockquote class="quote">
+                “The future belongs to those who learn with passion, practice with purpose, and progress with persistence.”
+            </blockquote>
+
+            <p class="closing">
+                Whether you are a student, teacher, or lifelong learner — LearnManch is your companion on the journey of knowledge. Together, we make learning smarter, faster, and more meaningful.
+            </p>
+
+            <button> <a href="\MagerProject\header\courses.html" class="btn-learn">Explore Courses</a></button>
+        </div>
+    </section>
+
+
+
+
+
+    <footer class="about-footer">
+        <p>© 2025 LearnManch | Designed mr Ramkesh RS ❤️ for learners.</p>
+    </footer>
+
+
+    <script>
+        /* Save as about.js*/
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.about-card');
+
+
+            // Animate cards on scroll
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.3
+            });
+
+
+            cards.forEach(card => observer.observe(card));
+        });
+
+
+        // Add CSS animation dynamically
+        const style = document.createElement
+        document.head.appendChild(style);
+    </script>
+</body>
+
+</html>

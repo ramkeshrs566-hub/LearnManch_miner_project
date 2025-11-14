@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>JAVA Tutorial | LearnManch</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
+        <nav class="sidebar" id="sidebar">
+            <h2>JAVA Tutorial</h2>
+            <ul id="courseList" tabindex="0">
+                <li data-ref="home" class="active">JAVA HOME</li>
+                <li data-ref="introduction">Java Introduction</li>
+                <li data-ref="setup">Setup</li>
+                <li data-ref="syntax">Java Syntax</li>
+                <li data-ref="oop">OOP Basics</li>
+                <li data-ref="classes">Classes & Objects</li>
+                <li data-ref="inheritance">Inheritance</li>
+                <li data-ref="exceptions">Exceptions</li>
+                <li data-ref="collections">Collections</li>
+            </ul>
+        </nav>
+        <main class="content" id="mainContent" tabindex="0">
+            <h1>JAVA HOME</h1>
+            <p>Welcome to the Java Tutorial. Select a topic from the list to start learning.</p>
+        </main>
+    </div>
+    <footer>
+        <p>© 2025 LearnManch | Designed by Mr. Ramkesh RS ❤️ for learners.</p>
+    </footer>
+
+    <style>
+        /* same styles as other pages (copy from previous) */
+        
+         :root {
+            --bg: #001733;
+            --sidebar: #02234d;
+            --content: #06204a;
+            --accent: #19b168;
+            --heading: #36b6ff;
+            --muted: #d8e9fa
+        }
+        
+        * {
+            box-sizing: border-box
+        }
+        
+        html,
+        body {
+            height: 100%
+        }
+        
+        body {
+            margin: 0;
+            font-family: "Poppins", system-ui;
+            background: var(--bg);
+            color: #fff;
+            overflow-x: hidden
+        }
+        
+        .container {
+            display: flex;
+            min-height: calc(100vh-56px);
+            position: relative
+        }
+        
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 14px;
+            left: 14px;
+            background: var(--accent);
+            color: #012;
+            border: 0;
+            padding: 10px 12px;
+            font-size: 20px;
+            border-radius: 8px;
+            z-index: 1200
+        }
+        
+        .sidebar {
+            background: var(--sidebar);
+            width: 250px;
+            min-width: 220px;
+            padding: 0 .6rem;
+            box-shadow: 2px 0 6px rgba(0, 0, 0, .12);
+            overflow-y: auto;
+            z-index: 1000
+        }
+        
+        .sidebar h2 {
+            margin: 1rem 0;
+            color: #59baef;
+            padding-left: .6rem
+        }
+        
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0
+        }
+        
+        .sidebar li {
+            padding: 12px 1.1rem;
+            margin-bottom: 4px;
+            cursor: pointer;
+            color: var(--muted)
+        }
+        
+        .sidebar li.active,
+        .sidebar li:hover {
+            background: var(--accent);
+            color: #fff;
+            font-weight: 600
+        }
+        
+        .content {
+            flex: 1;
+            padding: 2.4rem 2.6rem;
+            background: var(--content);
+            min-height: 100vh
+        }
+        
+        pre {
+            background: rgba(0, 0, 0, .14);
+            padding: 12px;
+            border-radius: 6px;
+            overflow-x: auto
+        }
+        
+        footer {
+            background: #011126;
+            color: #8ed0fc;
+            text-align: center;
+            padding: 12px 0
+        }
+        
+        @media(max-width:768px) {
+            .menu-toggle {
+                display: inline-flex
+            }
+            .container {
+                flex-direction: column
+            }
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                width: 86%;
+                transform: translateX(-115%);
+                padding-top: 72px
+            }
+            .sidebar.open {
+                transform: translateX(0)
+            }
+            body.sidebar-open::after {
+                content: "";
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, .45);
+                z-index: 900
+            }
+            .content {
+                padding: 1.2rem 1rem
+            }
+        }
+    </style>
+
+    <script>
+        const lessons = {
+            home: {
+                title: "JAVA HOME",
+                content: `<p>Welcome to the Java Tutorial. Select a topic from the list to get started.</p>`
+            },
+            introduction: {
+                title: "Java Introduction",
+                content: `<h2>What is Java?</h2><p>Java is a high-level, class-based, object-oriented programming language.</p>`
+            },
+            setup: {
+                title: "Setup",
+                content: `<h2>Setup</h2><p>Install JDK and set PATH.</p>`
+            },
+            syntax: {
+                title: "Java Syntax",
+                content: `<pre><code>public class Hello{ public static void main(String[] args){ System.out.println("Hello"); }}</code></pre>`
+            },
+            oop: {
+                title: "OOP Basics",
+                content: `<h2>OOP Basics</h2><p>Encapsulation, Inheritance, Polymorphism, Abstraction</p>`
+            },
+            classes: {
+                title: "Classes & Objects",
+                content: `<p>Define classes and create objects.</p>`
+            },
+            inheritance: {
+                title: "Inheritance",
+                content: `<p>Extend classes using extends keyword.</p>`
+            },
+            exceptions: {
+                title: "Exceptions",
+                content: `<p>try, catch, finally, throws</p>`
+            },
+            collections: {
+                title: "Collections",
+                content: `<p>List, Set, Map, Queue</p>`
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle'),
+                sidebar = document.getElementById('sidebar'),
+                courseItems = document.querySelectorAll('#courseList li'),
+                mainContent = document.getElementById('mainContent');
+            const loadLesson = ref => {
+                const l = lessons[ref];
+                mainContent.innerHTML = l ? `<h1>${l.title}</h1>${l.content}` : '<h1>Coming Soon</h1>'
+            };
+            courseItems.forEach(li => {
+                li.addEventListener('click', function() {
+                    courseItems.forEach(x => x.classList.remove('active'));
+                    this.classList.add('active');
+                    loadLesson(this.getAttribute('data-ref'));
+                    if (window.innerWidth <= 768) {
+                        sidebar.classList.remove('open');
+                        document.body.classList.remove('sidebar-open');
+                        menuToggle.setAttribute('aria-expanded', 'false');
+                    }
+                });
+                li.addEventListener('keydown', e => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        li.click();
+                    }
+                })
+            });
+            menuToggle && menuToggle.addEventListener('click', e => {
+                e.stopPropagation();
+                if (sidebar.classList.contains('open')) {
+                    sidebar.classList.remove('open');
+                    document.body.classList.remove('sidebar-open');
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                } else {
+                    sidebar.classList.add('open');
+                    document.body.classList.add('sidebar-open');
+                    menuToggle.setAttribute('aria-expanded', 'true');
+                }
+            });
+            document.addEventListener('click', e => {
+                if (window.innerWidth > 768) return;
+                if (!sidebar.contains(e.target) && !menuToggle.contains(e.target) && sidebar.classList.contains('open')) {
+                    sidebar.classList.remove('open');
+                    document.body.classList.remove('sidebar-open');
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+            document.addEventListener('keydown', e => {
+                if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+                    sidebar.classList.remove('open');
+                    document.body.classList.remove('sidebar-open');
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+            loadLesson('home');
+        });
+    </script>
+</body>
+
+</html>
