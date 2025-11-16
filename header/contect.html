@@ -14,11 +14,10 @@
         <p class="subtitle">""Our team is here to support your learning journey — reach out anytime, we’d love to hear from you!"</p>
     </header>
 
-
     <section class="contact-section">
         <div class="contact-info">
             <h2>Get in Touch</h2>
-            <p><strong>Email:</strong>ramkeshrs566@gmail.com</p>
+            <p><strong>Email:</strong> ramkeshrs566@gmail.com</p>
             <p><strong>Phone:</strong> +91 8090778226</p>
             <p><strong>Address:</strong> Noida Gaziabad, Delhi, India</p>
             <div class="social-links">
@@ -32,25 +31,20 @@
             </div>
         </div>
 
-
         <form class="contact-form" id="contactForm">
             <label for="name">Your Name</label>
             <input type="text" id="name" placeholder="Enter your name" required>
 
-
             <label for="email">Email</label>
             <input type="email" id="email" placeholder="Enter your email" required>
 
-
             <label for="message">Message</label>
             <textarea id="message" rows="5" placeholder="Write your message here..." required></textarea>
-
 
             <button type="submit">Send Message</button>
             <p id="responseMsg"></p>
         </form>
     </section>
-
 
     <footer class="contact-footer">
         <p>© 2025 LearnManch | Designed mr Ramkesh RS ❤️ for learners.</p>
@@ -64,35 +58,36 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
-        
+
         .contact-info {
-            background: var(--card);
+            background: rgba(255,255,255,0.03);
             border-radius: 12px;
-            padding: 24;
-            box-shadow: 0 4px 16px var(--shadow);
+            padding: 24px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+            margin-bottom: 18px;
         }
-        
+
         .social-links {
             margin-top: 12px;
         }
-        
+
         .social {
             color: rgb(206, 200, 200);
             text-decoration: none;
             font-size: .9rem;
             margin-right: 8px;
         }
-        
+
         .contact-form {
-            background: var(--card);
+            background: rgba(255,255,255,0.03);
             border-radius: 12px;
             padding: 25px;
-            box-shadow: 0 4px 16px var(--shadow);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
             display: flex;
             flex-direction: column;
             gap: 12px;
         }
-        
+
         .contact-form input,
         .contact-form textarea {
             padding: 10px 12px;
@@ -100,9 +95,9 @@
             border-radius: 6px;
             font-size: 1rem;
         }
-        
+
         .contact-form button {
-            background: var(--accent);
+            background: #0b69ff;
             color: white;
             border: none;
             padding: 10px 16px;
@@ -111,52 +106,99 @@
             cursor: pointer;
             transition: background 0.3s ease;
         }
-        
+
         .contact-form button:hover {
             background: #005fd1;
         }
-        
+
         #responseMsg {
             margin-top: 8px;
             font-size: 0.9rem;
             color: green;
             font-weight: 500;
         }
-        
+
         .contact-footer {
             text-align: center;
             padding: 20px;
             font-size: 0.9rem;
-            background: var(--card);
+            background: rgba(255,255,255,0.02);
             border-top: 1px solid rgba(0, 0, 0, 0.05);
+            margin-top: 20px;
         }
+
+        .hidden { display: none; }
+        .error { color: #ff6b6b; }
+        .success { color: #7bd389; }
     </style>
 
+    <!-- EmailJS Library -->
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
     <script>
+        // ======= CONFIG - Replace these with your EmailJS values =======
+        const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY';   // <-- EmailJS Public Key / User ID
+        const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID';   // <-- e.g. 'service_xxx'
+        const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID'; // <-- e.g. 'template_xxx'
+        // =================================================================
+
+        // The recipient (your email). Already set to your requested email:
+        const RECIPIENT_EMAIL = 'ramkeshrs566@gmail.com';
+
+        // initialize EmailJS
+        (function() {
+            emailjs.init(EMAILJS_PUBLIC_KEY);
+        })();
+
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
-
 
             const name = document.getElementById('name').value.trim();
             const email = document.getElementById('email').value.trim();
             const message = document.getElementById('message').value.trim();
             const response = document.getElementById('responseMsg');
 
-
             if (!name || !email || !message) {
                 response.textContent = '⚠️ Please fill in all fields.';
-                response.style.color = 'red';
+                response.className = 'error';
                 return;
             }
 
+            // basic email pattern check
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                response.textContent = '⚠️ Please enter a valid email.';
+                response.className = 'error';
+                return;
+            }
 
-            // Simple fake success message (you can replace with backend integration)
-            response.textContent = `✅ Thank you, ${name}! Your message has been sent successfully.`;
-            response.style.color = 'green';
+            // Prepare params for your EmailJS template
+            const templateParams = {
+                from_name: name,
+                from_email: email,
+                message: message,
+                to_email: RECIPIENT_EMAIL   // we send recipient here; set template's "To" to {{to_email}}
+            };
 
+            // optional: disable submit while sending
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            response.textContent = 'Sending...';
+            response.className = '';
 
-            // Clear fields
-            document.getElementById('contactForm').reset();
+            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+                .then(function() {
+                    response.textContent = `✅ Thank you, ${name}! Your message has been sent.`;
+                    response.className = 'success';
+                    document.getElementById('contactForm').reset();
+                }, function(error) {
+                    console.error('EmailJS error:', error);
+                    response.textContent = '❌ Failed to send message. Please try again later.';
+                    response.className = 'error';
+                })
+                .finally(function() {
+                    submitBtn.disabled = false;
+                });
         });
     </script>
 </body>
